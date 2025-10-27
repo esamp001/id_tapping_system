@@ -14,7 +14,7 @@ const Register = () => {
                     border: '1px solid'
                     }}
                 >
-                <Button sx={{ mb :5}}
+                <Button sx={{ mb : 6}}
                     variant="outlined"
                     startIcon={<ArrowBackIcon sx={{ fontSize: 20 }} />}
                 >
