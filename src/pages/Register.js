@@ -5,7 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Register = () => {
     return (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 2, mt: 6 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 3, gap: 2, mt: 6 }}>
                 <Box
                     sx={{
                         flex: { xs: '1 1 100%', sm: '1 1 48%' },
