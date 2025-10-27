@@ -5,7 +5,7 @@ import RightImage from "../assets/image_right.png"
 const Register = () => {
     return (
         <Box sx={{ border: '1px solid red' }}>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 2 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 2, mt: 6 }}>
                 <Box
                     sx={{
                         border: '1px solid',
