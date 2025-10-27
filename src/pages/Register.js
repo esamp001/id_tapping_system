@@ -22,49 +22,21 @@ const Register = () => {
                             mx: "auto",
                             mt: 5,
                             p: 3,
-                            gap: 3
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 2, // vertical spacing between items
                         }}
                     >
-
                         <Typography variant="h6">User Information</Typography>
 
-                        <TextField
-                            label="Unique ID"
-                            placeholder="e.g., ID-001-A-XYZ"
-                            fullWidth
-                        />
-
-                        <TextField
-                            label="Full Name"
-                            placeholder="John Doe"
-                            fullWidth
-                        />
-
-                        <TextField
-                            label="Email Address"
-                            placeholder="john.doe@example.com"
-                            type="email"
-                            fullWidth
-                        />
-
-                        <TextField
-                            label="Academic Grade"
-                            placeholder="e.g., Junior, Senior, Postgraduate"
-                            fullWidth
-                        />
-
-                        <TextField
-                            label="Phone Number"
-                            placeholder="e.g., +1 (555) 123-4567"
-                            fullWidth
-                        />
-
-                        <TextField
-                            label="Department"
-                            placeholder="e.g., Computer Science, Marketing"
-                            fullWidth
-                        />
+                        <TextField label="Unique ID" placeholder="e.g., ID-001-A-XYZ" fullWidth />
+                        <TextField label="Full Name" placeholder="John Doe" fullWidth />
+                        <TextField label="Email Address" placeholder="john.doe@example.com" type="email" fullWidth />
+                        <TextField label="Academic Grade" placeholder="e.g., Junior, Senior, Postgraduate" fullWidth />
+                        <TextField label="Phone Number" placeholder="e.g., +1 (555) 123-4567" fullWidth />
+                        <TextField label="Department" placeholder="e.g., Computer Science, Marketing" fullWidth />
                     </Box>
+
                 </Box>
                 <Box
                     sx={{
