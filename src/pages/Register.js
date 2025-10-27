@@ -51,16 +51,18 @@ const Register = () => {
                         alignItems: 'center',     // centers the image vertically if Box has height
                     }}
                 >
-                    <img
-                        src={RightImage}
-                        alt="RightImage"
-                        style={{
-                            maxWidth: '100%',  // makes image scale down with Box
-                            height: 'auto',    // preserves aspect ratio
-                            display: 'block'   // removes default inline spacing
-                        }}
-                    />
-                    <Typography variant='subtitle2'>Quickly register your unique identifier and essential details to streamline system access and tracking.</Typography>
+                    <Box>
+                        <img
+                            src={RightImage}
+                            alt="RightImage"
+                            style={{
+                                maxWidth: '100%',  // makes image scale down with Box
+                                height: 'auto',    // preserves aspect ratio
+                                display: 'block'   // removes default inline spacing
+                            }}
+                        />
+                        <Typography variant='subtitle2'>Quickly register your unique identifier and essential details to streamline system access and tracking.</Typography>
+                    </Box>
                 </Box>
             </Box>
         </Box>
