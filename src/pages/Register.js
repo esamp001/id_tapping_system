@@ -35,7 +35,7 @@ const Register = () => {
                         <TextField label="Academic Grade" placeholder="e.g., Junior, Senior, Postgraduate" fullWidth />
                         <TextField label="Phone Number" placeholder="e.g., +1 (555) 123-4567" fullWidth />
 
-                        <Button variant='outlined'>Register</Button>
+                        <Button variant='contained'>Register</Button>
                     </Box>
 
                 </Box>
