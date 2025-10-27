@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Typography, Stack, TextField, Button } from '@mui/material'
-import RightImage from "../assets/right_image.png"
+import RightImage from "../assets/image_right.png"
 
 const Register = () => {
     return (
