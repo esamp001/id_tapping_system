@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Typography, Stack, TextField } from '@mui/material'
+import { Box, Typography, Stack, TextField, Button } from '@mui/material'
 
 const Register = () => {
     return (
