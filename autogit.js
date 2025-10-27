@@ -3,7 +3,7 @@ const simpleGit = require("simple-git");
 const git = simpleGit();
 
 // Add { scheduled: true } and enable seconds field
-cron.schedule("*/10 * * * * *", async () => {
+cron.schedule("*/10 * * * *", async () => {
     const now = new Date().toLocaleString();
     console.log(`⏱️ Running auto commit at ${now}...`);
 
