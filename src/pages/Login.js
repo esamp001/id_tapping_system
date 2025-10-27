@@ -25,30 +25,40 @@ const Login = () => {
     };
     
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap'}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {/* Top section */}
             <Box
                 sx={{
-                    flex: { xs: '1 1 100%', sm: '1 1 48%' },
-                    minWidth: 200,
-                    p: 2,
                     display: 'flex',
-                    justifyContent: "space-between",
-                    alignItems: 'center'
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    p: 3,
                 }}
             >
-                <Typography variant="h5" sx={{ fontWeight: 600}}>Digital Attendance Tracker</Typography>
+                <Typography variant="h5" sx={{ fontWeight: 600 }}>
+                    Digital Attendance Tracker
+                </Typography>
+
                 <Typography
-                    variant="subtitle2" // or body2
+                    variant="subtitle2"
                     sx={{
-                        fontFamily: "'Roboto Mono', monospace", // monospaced font for numbers
+                        fontFamily: "'Roboto Mono', monospace",
                         fontWeight: 500,
-                        fontSize: '0.875rem' // optional size adjustment
+                        fontSize: '0.875rem',
                     }}
                 >
                     {formatTime(time)}
                 </Typography>
             </Box>
+
+            {/* Divider */}
             <Divider />
+
+            {/* Content below */}
+            <Box>
+                {/* Your other content goes here */}
+            </Box>
         </Box>
     )
 }
