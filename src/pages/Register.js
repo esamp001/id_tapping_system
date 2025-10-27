@@ -22,9 +22,6 @@ const Register = () => {
                             mx: "auto",
                             mt: 5,
                             p: 3,
-                            borderRadius: 2,
-                            boxShadow: 3,
-                            backgroundColor: "white",
                         }}
                     >
 
