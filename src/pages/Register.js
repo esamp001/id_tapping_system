@@ -26,44 +26,44 @@ const Register = () => {
                         }}
                     >
 
-                            <Typography variant="h6">User Information</Typography>
+                        <Typography variant="h6">User Information</Typography>
 
-                            <TextField
-                                label="Unique ID"
-                                placeholder="e.g., ID-001-A-XYZ"
-                                fullWidth
-                            />
+                        <TextField
+                            label="Unique ID"
+                            placeholder="e.g., ID-001-A-XYZ"
+                            fullWidth
+                        />
 
-                            <TextField
-                                label="Full Name"
-                                placeholder="John Doe"
-                                fullWidth
-                            />
+                        <TextField
+                            label="Full Name"
+                            placeholder="John Doe"
+                            fullWidth
+                        />
 
-                            <TextField
-                                label="Email Address"
-                                placeholder="john.doe@example.com"
-                                type="email"
-                                fullWidth
-                            />
+                        <TextField
+                            label="Email Address"
+                            placeholder="john.doe@example.com"
+                            type="email"
+                            fullWidth
+                        />
 
-                            <TextField
-                                label="Academic Grade"
-                                placeholder="e.g., Junior, Senior, Postgraduate"
-                                fullWidth
-                            />
+                        <TextField
+                            label="Academic Grade"
+                            placeholder="e.g., Junior, Senior, Postgraduate"
+                            fullWidth
+                        />
 
-                            <TextField
-                                label="Phone Number"
-                                placeholder="e.g., +1 (555) 123-4567"
-                                fullWidth
-                            />
+                        <TextField
+                            label="Phone Number"
+                            placeholder="e.g., +1 (555) 123-4567"
+                            fullWidth
+                        />
 
-                            <TextField
-                                label="Department"
-                                placeholder="e.g., Computer Science, Marketing"
-                                fullWidth
-                            />
+                        <TextField
+                            label="Department"
+                            placeholder="e.g., Computer Science, Marketing"
+                            fullWidth
+                        />
                     </Box>
                 </Box>
                 <Box
