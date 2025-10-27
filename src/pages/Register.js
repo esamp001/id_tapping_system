@@ -60,7 +60,7 @@ const Register = () => {
                             display: 'block'   // removes default inline spacing
                         }}
                     />
-                    <Typography>Quickly register your unique identifier and essential details to streamline system access and tracking.</Typography>
+                    <Typography variant='subtitle2'>Quickly register your unique identifier and essential details to streamline system access and tracking.</Typography>
                 </Box>
             </Box>
         </Box>
