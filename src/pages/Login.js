@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Divider } from '@mui/material'
-
+import { Box, Typography, Divider, TextField, Button } from '@mui/material'
+import LoginIcon from '@mui/icons-material/Login';
 
 const Login = () => {
     const [time, setTime] = useState(new Date());
@@ -23,7 +23,7 @@ const Login = () => {
             .toString()
             .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} ${ampm}`;
     };
-    
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {/* Top section */}
@@ -69,8 +69,36 @@ const Login = () => {
                     height: 100, // optional, sets vertical space
                 }}
             >
-                <Typography sx={{ fontWeight: 600 }} variant="h6">Student Access</Typography>
-                <Typography sx={{ fontWeight: 600 }} variant="h6">Enter your Student ID to acesss attendance</Typography>
+                <Box sx={{ textAlign: 'center', width: '80%', mt: 2 }}>
+                    <Typography sx={{ fontWeight: 600 }} variant="h6">Student Access</Typography>
+                    <Typography variant="subtitle2">Enter your Student ID to acesss attendance</Typography>
+
+                    <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 1 }}>
+                        <TextField sx={{ width: '100%' }}
+                            label="Student ID"
+                            variant="outlined"
+                            fullWidth
+                            required
+                        />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            sx={{ py: 1.5 }} // optional padding for taller button
+                        >
+                            Access Dashboard
+                        </Button>
+                        <Box>
+                            <Button
+                                variant="outlined"
+                                startIcon={<LoginIcon />} // adds icon to the left
+                            >
+                                Admin Login
+                            </Button>
+                        </Box>
+                    </Box>
+                </Box>
             </Box>
         </Box>
     )
