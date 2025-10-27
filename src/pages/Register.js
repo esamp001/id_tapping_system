@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Typography, Stack, TextField, Button } from '@mui/material'
 import RightImage from "../assets/image_right.png"
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Register = () => {
     return (
@@ -12,7 +13,12 @@ const Register = () => {
                         p: 2,
                     }}
                 >
-                    <Button variant='outlined'>Go to Tapping</Button>
+                <Button
+                    variant="outlined"
+                    endIcon={<ArrowForwardIcon sx={{ fontSize: 20 }} />}
+                >
+                    Go to Tapping
+                </Button>
                     <Typography variant='h6' sx={{ fontWeight: '600'}}>Register your ID</Typography>
                     <Typography variant='subtitle2'>Enter your unique ID and personal details to get started with the ID tapping system.</Typography>
 
