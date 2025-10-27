@@ -11,7 +11,6 @@ const Register = () => {
                         flex: { xs: '1 1 100%', sm: '1 1 48%' },
                         minWidth: 200,
                         p: 2,
-                    border: '1px solid'
                     }}
                 >
                 <Button sx={{ mb : 6}}
