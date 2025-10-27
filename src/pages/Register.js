@@ -8,7 +8,6 @@ const Register = () => {
             <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 2, mt: 6 }}>
                 <Box
                     sx={{
-                        border: '1px solid',
                         flex: { xs: '1 1 100%', sm: '1 1 48%' },
                         minWidth: 200,
                         p: 2,
@@ -42,7 +41,6 @@ const Register = () => {
                 </Box>
                 <Box
                     sx={{
-                        border: '1px solid',
                         flex: { xs: '1 1 100%', sm: '1 1 48%' },
                         minWidth: 200,
                         p: 2,
