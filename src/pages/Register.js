@@ -22,6 +22,7 @@ const Register = () => {
                             mx: "auto",
                             mt: 5,
                             p: 3,
+                            gap: 3
                         }}
                     >
 
