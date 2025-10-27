@@ -32,6 +32,9 @@ const theme = createTheme({
 
     typography: {
         fontFamily: "'Inter', sans-serif",
+        subtitle2: {
+            color: "#7A7A7A", // lighter gray for small text
+        }
     }
 });
 
