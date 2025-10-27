@@ -15,10 +15,11 @@ const Register = () => {
                 >
                 <Button
                     variant="outlined"
-                    endIcon={<ArrowBackIcon sx={{ fontSize: 20 }} />}
+                    startIcon={<ArrowBackIcon sx={{ fontSize: 20 }} />}
                 >
                     Go to Tapping
                 </Button>
+
                     <Typography variant='h6' sx={{ fontWeight: '600'}}>Register your ID</Typography>
                     <Typography variant='subtitle2'>Enter your unique ID and personal details to get started with the ID tapping system.</Typography>
 
