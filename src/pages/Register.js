@@ -48,7 +48,7 @@ const Register = () => {
                         p: 2,
                     }}
                 >
-                    RIGHT
+                    <img src={RightImage} alt="RightImage" />
                 </Box>
             </Box>
         </Box>
