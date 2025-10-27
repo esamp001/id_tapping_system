@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Typography, Stack, TextField, Button } from '@mui/material'
 import RightImage from "../assets/image_right.png"
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Register = () => {
     return (
@@ -15,7 +15,7 @@ const Register = () => {
                 >
                 <Button
                     variant="outlined"
-                    endIcon={<ArrowForwardIcon sx={{ fontSize: 20 }} />}
+                    endIcon={<ArrowBackIcon sx={{ fontSize: 20 }} />}
                 >
                     Go to Tapping
                 </Button>
