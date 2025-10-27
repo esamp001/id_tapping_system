@@ -30,6 +30,8 @@ const Login = () => {
             <Box
                 sx={{
                     display: 'flex',
+                    flex: { xs: '1 1 100%', sm: '1 1 48%' },
+                    minWidth: 200,
                     flexWrap: 'wrap',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -56,8 +58,19 @@ const Login = () => {
             <Divider />
 
             {/* Content below */}
-            <Box>
-                {/* Your other content goes here */}
+            <Box
+                sx={{
+                    display: 'flex',
+                    flex: { xs: '1 1 100%', sm: '1 1 48%' },
+                    minWidth: 200,
+                    mt: 2,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: 100, // optional, sets vertical space
+                }}
+            >
+                <Typography sx={{ fontWeight: 600 }} variant="h6">Student Access</Typography>
+                <Typography sx={{ fontWeight: 600 }} variant="h6">Enter your Student ID to acesss attendance</Typography>
             </Box>
         </Box>
     )
