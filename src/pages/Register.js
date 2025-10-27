@@ -46,9 +46,20 @@ const Register = () => {
                         flex: { xs: '1 1 100%', sm: '1 1 48%' },
                         minWidth: 200,
                         p: 2,
+                        display: 'flex',
+                        justifyContent: 'center', // centers the image horizontally
+                        alignItems: 'center',     // centers the image vertically if Box has height
                     }}
                 >
-                    <img src={RightImage} alt="RightImage" />
+                    <img
+                        src={RightImage}
+                        alt="RightImage"
+                        style={{
+                            maxWidth: '100%',  // makes image scale down with Box
+                            height: 'auto',    // preserves aspect ratio
+                            display: 'block'   // removes default inline spacing
+                        }}
+                    />
                 </Box>
             </Box>
         </Box>
