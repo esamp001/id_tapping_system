@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Box, Paper, Avatar, Chip, Divider } from '@mui/material'
+import { Typography, Box, Paper, Avatar, Chip, Divider, Button } from '@mui/material'
 import TopBar from './TopBar'
 
 const activities = [
@@ -27,7 +27,7 @@ const Dashboard = () => {
                         <Typography variant="h4" sx={{ fontWeight: 700 }}>
                             Alice Johnson
                         </Typography>
-                        <Typography variant="subtitle2">ID: 001</Typography>
+                        <Typography variant="subtitle2">ID: 00001</Typography>
                         <Typography variant="h4" sx={{ fontWeight: 600, mt: 2, mb: 2 }}>
                             10:30 AM
                         </Typography>
@@ -56,9 +56,10 @@ const Dashboard = () => {
                     />
                 </Paper>
 
-                <Divider sx={{ mt: 5, mb: 1}} />
+                <Button variant='contained'>Stay on Dashboard</Button>
+                <Button variant='contained'>Go back to login</Button>
 
-                <Box>
+                <Box sx={{ mt: 5}}>
                     <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, mt: 1 }}>
                         Recent Activity
                     </Typography>
