@@ -52,59 +52,52 @@ const Dashboard = () => {
                     <Avatar
                         alt="Alice Johnson"
                         src="https://mui.com/static/images/avatar/1.jpg"
-                        sx={{ width: 120, height: 120, mr: 3}}
+                        sx={{ width: 120, height: 120, mr: 3 }}
                     />
                 </Paper>
 
-            
-            </Box>
-            <Box sx={{ width: 300, bgcolor: "background.paper", borderRadius: 2, p: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
-                    Recent Activity
-                </Typography>
+                <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, mt: 1 }}>
+                        Recent Activity
+                    </Typography>
 
-                {activities.map((activity, index) => (
-                    <Box key={index}>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                py: 1.5,
-                            }}
-                        >
-                            {/* Status badge */}
-                            <Chip
-                                label={activity.status}
-                                size="small"
-                                variant={activity.status === "In" ? "outlined" : "filled"}
+
+                    {activities.map((activity, index) => (
+                        <React.Fragment key={index}>
+                            <Box
                                 sx={{
-                                    bgcolor:
-                                        activity.status === "In" ? "success.light" : "grey.200",
-                                    color:
-                                        activity.status === "In"
-                                            ? "success.main"
-                                            : "text.primary",
-                                    fontWeight: 600,
-                                    px: 0.5,
-                                    borderRadius: "8px",
-                                    border:
-                                        activity.status === "In"
-                                            ? "none"
-                                            : "1px solid #c0c0c0",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    py: 1.5,
                                 }}
-                            />
+                            >
+                                {/* Status text */}
+                                <Typography
+                                    variant="body1"
+                                    sx={{
+                                        fontWeight: 600,
+                                        color:
+                                            activity.status === "In"
+                                                ? "success.main"
+                                                : "text.primary",
+                                    }}
+                                >
+                                    {activity.status}
+                                </Typography>
 
-                            {/* Time text */}
-                            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                                {activity.time}
-                            </Typography>
-                        </Box>
+                                {/* Time text */}
+                                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                                    {activity.time}
+                                </Typography>
+                            </Box>
 
-                        {/* Divider except last item */}
-                        {index < activities.length - 1 && <Divider />}
-                    </Box>
-                ))}
+                            {/* Divider except after the last item */}
+                            {index < activities.length - 1 && <Divider />}
+                        </React.Fragment>
+                    ))}
+
+                </Box>
             </Box>
         </>
     )
