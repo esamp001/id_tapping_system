@@ -1,9 +1,29 @@
-import React from 'react'
-import { Box, Typography, TextField, Button } from '@mui/material'
+import React, { useState } from "react";
+import { Box, Typography, TextField, Button, Avatar } from '@mui/material'
 import RightImage from "../assets/image_right.png"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Register = () => {
+    // State
+    const [image, setImage] = useState(null);
+    const [preview, setPreview] = useState(null);
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setImage(file);
+            setPreview(URL.createObjectURL(file));
+        }
+    };
+
+    const handleUpload = () => {
+        if (image) {
+            // You can handle the upload here (e.g., send to backend using FormData)
+            console.log("Uploading:", image);
+            alert("Avatar uploaded successfully!");
+        }
+    };
+    
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 2, mt: 6 }}>
             <Box
@@ -23,11 +43,46 @@ const Register = () => {
                 <Typography variant='h6' sx={{ fontWeight: '600' }}>Register your ID</Typography>
                 <Typography variant='subtitle2'>Enter your unique ID and personal details to get started with the ID tapping system.</Typography>
 
+                <Box sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', mt : 2}}>
+                    <Typography variant="h6">Upload Student Image</Typography>
+
+                    <Avatar
+                        src={preview}
+                        alt="Avatar Preview"
+                        sx={{ width: 100, height: 100, mb: 1 }}
+                    />
+
+                    <Box>
+                        <Button
+                            variant="contained"
+                            component="label"
+                            sx={{ textTransform: "none" }}
+                        >
+                            Choose Image
+                            <input
+                                hidden
+                                accept="image/*"
+                                type="file"
+                                onChange={handleImageChange}
+                            />
+                        </Button>
+
+                        <Button
+                            variant="outlined"
+                            onClick={handleUpload}
+                            disabled={!image}
+                            sx={{ textTransform: "none" }}
+                        >
+                            Upload
+                        </Button>
+                    </Box>
+                </Box>
+
                 <Box
                     sx={{
                         maxWidth: 400,
                         mx: "auto",
-                        mt: 5,
+                        mt: 2,
                         p: 3,
                         display: "flex",
                         flexDirection: "column",
