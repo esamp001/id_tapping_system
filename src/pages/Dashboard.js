@@ -1,6 +1,7 @@
 import React from 'react'
 import { Typography, Box, Paper, Avatar, Chip, Divider, Button } from '@mui/material'
 import TopBar from './TopBar'
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 
 const activities = [
     { status: "In", time: "08:00 AM, Aug 1" },
@@ -12,7 +13,7 @@ const Dashboard = () => {
     return (
         <>
             <TopBar />
-            <Box sx={{ display: "flex", flexDirection: "column", p: 3 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", p: 3, justifyContent: 'center', alignItems:'center', flexWrap: 'wrap' }}>
                 <Paper
                     sx={{
                         p: 4,
@@ -20,6 +21,7 @@ const Dashboard = () => {
                         alignItems: "center",
                         justifyContent: "space-between", // ✅ separates left/right
                         boxShadow: 3,
+                        width: '60%'
                     }}
                 >
                     {/* LEFT SIDE — name, id, time, status */}
@@ -52,21 +54,25 @@ const Dashboard = () => {
                     <Avatar
                         alt="Alice Johnson"
                         src="https://mui.com/static/images/avatar/1.jpg"
-                        sx={{ width: 120, height: 120, mr: 3 }}
+                        sx={{ width: 150, height: 150, mr: 3 }}
                     />
                 </Paper>
                 
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2, gap : 3}}>
+                <Box sx={{
+                    display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2, gap: 3, flex: { xs: '1 1 100%', sm: '1 1 48%' },
+                    minWidth: 200,
+                }}>
                     <Button variant='contained'>Stay on Dashboard</Button>
                     <Button variant='outlined'>Go back to login</Button>
                 </Box>
              
-                <Box sx={{ mt: 5}}>
+                <Box sx={{
+                    mt: 5, width: '55%', flex: { xs: '1 1 100%', sm: '1 1 48%' },
+                    minWidth: 200,
+                }}>
                     <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, mt: 1 }}>
                         Recent Activity
                     </Typography>
-
-
                     <Box
                         sx={{
                             maxHeight: 250, // or a height like 300, 400 — depends on your layout
@@ -108,8 +114,12 @@ const Dashboard = () => {
                             </React.Fragment>
                         ))}
                     </Box>
-
-
+                    <Button sx={{ mt : 2}}
+                        variant="outlined"
+                        startIcon={<FileDownloadOutlinedIcon />}
+                    >
+                        Export to CSV
+                    </Button>
                 </Box>
             </Box>
         </>
