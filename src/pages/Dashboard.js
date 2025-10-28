@@ -55,10 +55,12 @@ const Dashboard = () => {
                         sx={{ width: 120, height: 120, mr: 3 }}
                     />
                 </Paper>
-
-                <Button variant='contained'>Stay on Dashboard</Button>
-                <Button variant='contained'>Go back to login</Button>
-
+                
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2, gap : 3}}>
+                    <Button variant='contained'>Stay on Dashboard</Button>
+                    <Button variant='outlined'>Go back to login</Button>
+                </Box>
+             
                 <Box sx={{ mt: 5}}>
                     <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, mt: 1 }}>
                         Recent Activity
