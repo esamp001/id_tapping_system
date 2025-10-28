@@ -28,7 +28,7 @@ const Dashboard = () => {
                             Alice Johnson
                         </Typography>
                         <Typography variant="subtitle2">ID: 001</Typography>
-                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        <Typography variant="h4" sx={{ fontWeight: 600, mt: 2, mb: 2 }}>
                             10:30 AM
                         </Typography>
                         <Typography
@@ -36,7 +36,7 @@ const Dashboard = () => {
                                 mt: 1,
                                 display: "inline-block",
                                 bgcolor: "success.light",
-                                color: "black",
+                                color: "white",
                                 px: 2,
                                 py: 0.5,
                                 borderRadius: "20px",
@@ -56,46 +56,56 @@ const Dashboard = () => {
                     />
                 </Paper>
 
+                <Divider sx={{ mt: 5, mb: 1}} />
+
                 <Box>
                     <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, mt: 1 }}>
                         Recent Activity
                     </Typography>
 
 
-                    {activities.map((activity, index) => (
-                        <React.Fragment key={index}>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    py: 1.5,
-                                }}
-                            >
-                                {/* Status text */}
-                                <Typography
-                                    variant="body1"
+                    <Box
+                        sx={{
+                            maxHeight: 250, // or a height like 300, 400 — depends on your layout
+                            overflowY: "auto",
+                            pr: 1, // small right padding to prevent text cutoff when scrollbar shows
+                        }}
+                    >
+                        {activities.map((activity, index) => (
+                            <React.Fragment key={index}>
+                                <Box
                                     sx={{
-                                        fontWeight: 600,
-                                        color:
-                                            activity.status === "In"
-                                                ? "success.main"
-                                                : "text.primary",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        py: 1.5,
                                     }}
                                 >
-                                    {activity.status}
-                                </Typography>
+                                    {/* Status text */}
+                                    <Typography
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: (theme) =>
+                                                activity.status === "In"
+                                                    ? theme.palette.status.in
+                                                    : theme.palette.status.out,
+                                        }}
+                                    >
+                                        {activity.status}
+                                    </Typography>
 
-                                {/* Time text */}
-                                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                                    {activity.time}
-                                </Typography>
-                            </Box>
+                                    {/* Time text */}
+                                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                                        {activity.time}
+                                    </Typography>
+                                </Box>
 
-                            {/* Divider except after the last item */}
-                            {index < activities.length - 1 && <Divider />}
-                        </React.Fragment>
-                    ))}
+                                {/* Divider except after the last item */}
+                                {index < activities.length - 1 && <Divider />}
+                            </React.Fragment>
+                        ))}
+                    </Box>
+
 
                 </Box>
             </Box>
