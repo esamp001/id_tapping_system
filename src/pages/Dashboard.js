@@ -15,7 +15,7 @@ const Dashboard = () => {
             <Box sx={{ display: "flex", flexDirection: "column", p: 3 }}>
                 <Paper
                     sx={{
-                        p: 2,
+                        p: 4,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between", // ✅ separates left/right
@@ -28,8 +28,8 @@ const Dashboard = () => {
                             Alice Johnson
                         </Typography>
                         <Typography variant="subtitle2">ID: 00001</Typography>
-                        <Typography variant="h4" sx={{ fontWeight: 600, mt: 2, mb: 2 }}>
-                            10:30 AM
+                        <Typography variant="h5" sx={{ fontWeight: 600, mt: 2, mb: 2 }}>
+                            10:30 AM, TUESDAY
                         </Typography>
                         <Typography
                             sx={{
