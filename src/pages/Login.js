@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography, Divider, TextField, Button } from '@mui/material'
-import LoginIcon from '@mui/icons-material/Login';
+import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
 
 const Login = () => {
     const [time, setTime] = useState(new Date());
@@ -69,7 +69,7 @@ const Login = () => {
                     height: 100, // optional, sets vertical space
                 }}
             >
-                <Box sx={{ textAlign: 'center', width: '80%', mt: 2 }}>
+                <Box sx={{ textAlign: 'center', width: '60%', mt: 2 }}>
                     <Typography sx={{ fontWeight: 600 }} variant="h6">Student Access</Typography>
                     <Typography variant="subtitle2">Enter your Student ID to acesss attendance</Typography>
 
@@ -89,10 +89,10 @@ const Login = () => {
                         >
                             Access Dashboard
                         </Button>
-                        <Box>
+                        <Box sx={{ mt : 1}}>
                             <Button
                                 variant="outlined"
-                                startIcon={<LoginIcon />} // adds icon to the left
+                                startIcon={<SupervisorAccountOutlinedIcon />} // adds icon to the left
                             >
                                 Admin Login
                             </Button>
