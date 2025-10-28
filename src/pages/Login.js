@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Divider, TextField, Button } from '@mui/material'
+import { Box, Typography, Divider, TextField, Button, Avatar} from '@mui/material'
 import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
 
 const Login = () => {
+    // States
     const [time, setTime] = useState(new Date());
+    const [preview, setPreview] = useState(null);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -73,7 +75,15 @@ const Login = () => {
                     <Typography sx={{ fontWeight: 600 }} variant="h6">Student Access</Typography>
                     <Typography variant="subtitle2">Enter your Student ID to acesss attendance</Typography>
 
-                    <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                        <Avatar
+                            src={preview}
+                            alt="Avatar Preview"
+                            sx={{ width: 120, height: 120, mb: .5, mt: 2 }}
+                        />
+                    </Box>
+
+                    <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
                         <TextField sx={{ width: '100%' }}
                             label="Student ID"
                             variant="outlined"

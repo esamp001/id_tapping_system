@@ -15,14 +15,6 @@ const Register = () => {
             setPreview(URL.createObjectURL(file));
         }
     };
-
-    const handleUpload = () => {
-        if (image) {
-            // You can handle the upload here (e.g., send to backend using FormData)
-            console.log("Uploading:", image);
-            alert("Avatar uploaded successfully!");
-        }
-    };
     
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 2, mt: 6 }}>
@@ -65,15 +57,6 @@ const Register = () => {
                                 type="file"
                                 onChange={handleImageChange}
                             />
-                        </Button>
-
-                        <Button
-                            variant="outlined"
-                            onClick={handleUpload}
-                            disabled={!image}
-                            sx={{ textTransform: "none" }}
-                        >
-                            Upload
                         </Button>
                     </Box>
                 </Box>
