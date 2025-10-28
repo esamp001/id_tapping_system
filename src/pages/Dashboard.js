@@ -1,9 +1,10 @@
 import React from 'react'
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
+    return (
+        <Box sx={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+        </Box>
+    )
 }
 
 export default Dashboard

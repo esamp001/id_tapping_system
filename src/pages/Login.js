@@ -8,7 +8,7 @@ const Login = () => {
     const [preview, setPreview] = useState(null);
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
             {/* Top Nav Bar */}
             <TopBar />
 
