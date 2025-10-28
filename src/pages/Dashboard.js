@@ -128,9 +128,21 @@ const Dashboard = () => {
                             </React.Fragment>
                         ))}
                     </Box>
-                    <Button sx={{ mt: 2 }} variant="outlined" startIcon={<FileDownloadOutlinedIcon />}>
-                        Export to CSV
-                    </Button>
+                    <Box
+                        sx={{
+                            mt: 2,
+                            display: "flex",
+                            flexDirection: 'column',
+                            gap: 2,
+                        }}
+                    >
+                        <Button sx={{ borderRadius: .5 , height: 50}} variant="outlined" startIcon={<FileDownloadOutlinedIcon />}>
+                            Export to CSV
+                        </Button>
+                        <Button sx={{ borderRadius: .5, height: 50 }} variant="outlined">
+                            My Attendance History
+                        </Button>
+                    </Box>
                 </Box>
             </Box>
 
