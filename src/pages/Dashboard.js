@@ -76,12 +76,13 @@ const Dashboard = () => {
                         flexDirection: { xs: "column", sm: "row" },
                     }}
                 >
-                    <Button variant="contained">
-                        Stay on Dashboard
-                    </Button>
                     <Button variant="outlined">
                         Go back to login
                     </Button>
+                    <Button variant="contained">
+                        Stay on Dashboard
+                    </Button>
+
                 </Box>
                 <Box
                     sx={{
