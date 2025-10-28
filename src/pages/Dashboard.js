@@ -13,18 +13,28 @@ const Dashboard = () => {
     return (
         <>
             <TopBar />
-            <Box sx={{ display: "flex", flexDirection: "column", p: 3, justifyContent: 'center', alignItems:'center', flexWrap: 'wrap' }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    p: 3,
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                }}
+            >
                 <Paper
                     sx={{
                         p: 4,
                         display: "flex",
+                        flexDirection: { xs: "column-reverse", sm: "row" },
                         alignItems: "center",
-                        justifyContent: "space-between", // ✅ separates left/right
+                        justifyContent: "space-between",
                         boxShadow: 3,
-                        width: '60%'
+                        width: { xs: "100%", sm: "80%", md: "60%" },
+                        textAlign: { xs: "center", sm: "left" },
+                        gap: 2,
                     }}
                 >
-                    {/* LEFT SIDE — name, id, time, status */}
                     <Box>
                         <Typography variant="h4" sx={{ fontWeight: 700 }}>
                             Alice Johnson
@@ -50,34 +60,43 @@ const Dashboard = () => {
                         </Typography>
                     </Box>
 
-                    {/* RIGHT SIDE — avatar */}
                     <Avatar
                         alt="Alice Johnson"
                         src="https://mui.com/static/images/avatar/1.jpg"
-                        sx={{ width: 150, height: 150, mr: 3 }}
+                        sx={{ width: 150, height: 150 }}
                     />
                 </Paper>
-                
-                <Box sx={{
-                    display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2, gap: 3, flex: { xs: '1 1 100%', sm: '1 1 48%' },
-                    minWidth: 200,
-                }}>
-                    <Button variant='contained'>Stay on Dashboard</Button>
-                    <Button variant='outlined'>Go back to login</Button>
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        mt: 2,
+                        gap: 2,
+                        flexDirection: { xs: "column", sm: "row" },
+                    }}
+                >
+                    <Button variant="contained">
+                        Stay on Dashboard
+                    </Button>
+                    <Button variant="outlined">
+                        Go back to login
+                    </Button>
                 </Box>
-             
-                <Box sx={{
-                    mt: 5, width: '55%', flex: { xs: '1 1 100%', sm: '1 1 48%' },
-                    minWidth: 200,
-                }}>
+                <Box
+                    sx={{
+                        mt: 5,
+                        width: { xs: "100%", sm: "80%", md: "55%" },
+                    }}
+                >
                     <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, mt: 1 }}>
                         Recent Activity
                     </Typography>
                     <Box
                         sx={{
-                            maxHeight: 250, // or a height like 300, 400 — depends on your layout
+                            maxHeight: 250,
                             overflowY: "auto",
-                            pr: 1, // small right padding to prevent text cutoff when scrollbar shows
+                            pr: 1,
                         }}
                     >
                         {activities.map((activity, index) => (
@@ -90,38 +109,31 @@ const Dashboard = () => {
                                         py: 1.5,
                                     }}
                                 >
-                                    {/* Status text */}
                                     <Typography
                                         sx={{
                                             fontWeight: 600,
                                             color: (theme) =>
                                                 activity.status === "In"
-                                                    ? theme.palette.status.in
-                                                    : theme.palette.status.out,
+                                                    ? theme.palette.success.main
+                                                    : theme.palette.error.main,
                                         }}
                                     >
                                         {activity.status}
                                     </Typography>
-
-                                    {/* Time text */}
                                     <Typography variant="body2" sx={{ color: "text.secondary" }}>
                                         {activity.time}
                                     </Typography>
                                 </Box>
-
-                                {/* Divider except after the last item */}
                                 {index < activities.length - 1 && <Divider />}
                             </React.Fragment>
                         ))}
                     </Box>
-                    <Button sx={{ mt : 2}}
-                        variant="outlined"
-                        startIcon={<FileDownloadOutlinedIcon />}
-                    >
+                    <Button sx={{ mt: 2 }} variant="outlined" startIcon={<FileDownloadOutlinedIcon />}>
                         Export to CSV
                     </Button>
                 </Box>
             </Box>
+
         </>
     )
 }
