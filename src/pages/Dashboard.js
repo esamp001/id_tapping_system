@@ -2,6 +2,8 @@ import React from 'react'
 import { Typography, Box, Paper, Avatar, Chip, Divider, Button } from '@mui/material'
 import TopBar from './TopBar'
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 
 const activities = [
     { status: "In", time: "08:00 AM, Aug 1" },
@@ -76,10 +78,10 @@ const Dashboard = () => {
                         flexDirection: { xs: "column", sm: "row" },
                     }}
                 >
-                    <Button variant="outlined">
+                    <Button variant="outlined" startIcon={<KeyboardBackspaceOutlinedIcon />}>
                         Go back to login
                     </Button>
-                    <Button variant="contained">
+                    <Button variant="contained" startIcon={<DashboardOutlinedIcon />}>
                         Stay on Dashboard
                     </Button>
 
