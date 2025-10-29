@@ -45,7 +45,7 @@ const TopBar = ({ title = "Digital Attendance Tracker", showTime = true }) => {
                     sx={{
                         fontFamily: "'Roboto Mono', monospace",
                         fontWeight: 500,
-                        fontSize: "0.875rem",
+                        fontSize: "1.5rem",
                     }}
                 >
                     {formatTime(time)}

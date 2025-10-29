@@ -21,7 +21,7 @@ const Dashboard = () => {
                     flexDirection: "column",
                     p: 3,
                     alignItems: "center",
-                    flexWrap: "wrap",
+                    flexWrap: 'wrap'
                 }}
             >
                 <Paper
