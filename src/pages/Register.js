@@ -17,14 +17,14 @@ const Register = () => {
     };
     
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 5, mt: 6, justifyContent: 'space-between'}}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 0, mt: 1}}>
             {/*Content Left */}
             <Box
                 sx={{
-                    flex: { xs: '1 1 100%', sm: '1 1 48%' },
+                    flex: { xs: '1 1 180%', sm: '1 1 38%' },
                     minWidth: 200,
                     p: 2,
-                    border: '1px solid'
+                    border: '1px solid',
                 }}
             >
                 <Button sx={{ mb: 6 }}
@@ -61,19 +61,6 @@ const Register = () => {
                             />
                         </Button>
                     </Box>
-                </Box>
-
-                <Box
-                    sx={{
-                        maxWidth: 400,
-                        mx: "auto",
-                        mt: 2,
-                        p: 3,
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 2, // vertical spacing between items
-                    }}
-                >
                     <Typography variant="h6">User Information</Typography>
 
                     <TextField label="Unique ID" placeholder="e.g., ID-001-A-XYZ" fullWidth />
@@ -84,7 +71,19 @@ const Register = () => {
 
                     <Button variant='contained'>Register</Button>
                 </Box>
-
+                <Box
+                    sx={{
+                        maxWidth: 400,
+                        mt: 2,
+                        p: 3,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 2, // vertical spacing between items
+                        border: '1px solid'
+                    }}
+                >
+                   
+                </Box>
             </Box>
             {/*Content Right */}
             <Box
