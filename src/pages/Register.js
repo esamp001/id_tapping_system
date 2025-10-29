@@ -18,13 +18,23 @@ const Register = () => {
     
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 0, mt: 1}}>
-            <Box sx={{ display: 'flex', justifyContent:'center', alignItems: 'center', border: '1px solid green', width: '100%'}}>
+            <Box>
+                <Button sx={{ mb: 6 }}
+                    variant="outlined"
+                    startIcon={<ArrowBackIcon sx={{ fontSize: 20 }} />}
+                >
+                    Go to Tapping
+                </Button>
+
+                <Typography variant='h6' sx={{ fontWeight: '600' }}>Register your ID</Typography>
+                <Typography variant='subtitle2'>Enter your unique ID and personal details to get started with the ID tapping system.</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent:'center', alignItems: 'center', width: '100%'}}>
                 {/*Content Left */}
                 <Box
                     sx={{
-                        width: "30%",
-                        p: 2,
-                        border: '1px solid',
+                        width: "50%",
+                        p: 2
                     }}
                 >
 
@@ -61,7 +71,6 @@ const Register = () => {
                                 display: 'flex',
                                 flexDirection: 'column',
                                 gap: 2, // vertical spacing between items
-                                border: '1px solid'
                             }}
                         >
                             <Typography variant="h6">User Information</Typography>
@@ -82,10 +91,9 @@ const Register = () => {
                     sx={{
                         minWidth: 200,
                         p: 2,
-                        display: 'flex',
+                        width: '50%',
                         justifyContent: 'center', // centers the image horizontally
-                        alignItems: 'center',     // centers the image vertically if Box has height
-                        border: '1px solid red'
+                        border: '1px solid',
                     }}
                 >
                     <Box>
@@ -98,8 +106,8 @@ const Register = () => {
                                 display: 'block'   // removes default inline spacing
                             }}
                         />
-                        <Typography sx={{ textAlign: 'center' }} variant='subtitle2'>Quickly register your unique identifier and essential details to streamline system access and tracking.</Typography>
                     </Box>
+                    <Typography sx={{ textAlign: 'center' }} variant='subtitle2'>Quickly register your unique identifier and essential details to streamline system access and tracking.</Typography>
                 </Box>
             </Box>
         </Box>
