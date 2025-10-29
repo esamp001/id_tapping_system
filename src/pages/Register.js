@@ -17,12 +17,14 @@ const Register = () => {
     };
     
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 2, mt: 6 }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 5, gap: 5, mt: 6, justifyContent: 'space-between'}}>
+            {/*Content Left */}
             <Box
                 sx={{
                     flex: { xs: '1 1 100%', sm: '1 1 48%' },
                     minWidth: 200,
-                    p: 2
+                    p: 2,
+                    border: '1px solid'
                 }}
             >
                 <Button sx={{ mb: 6 }}
@@ -84,6 +86,7 @@ const Register = () => {
                 </Box>
 
             </Box>
+            {/*Content Right */}
             <Box
                 sx={{
                     flex: { xs: '1 1 100%', sm: '1 1 48%' },
@@ -92,6 +95,7 @@ const Register = () => {
                     display: 'flex',
                     justifyContent: 'center', // centers the image horizontally
                     alignItems: 'center',     // centers the image vertically if Box has height
+                    border: '1px solid red'
                 }}
             >
                 <Box>
