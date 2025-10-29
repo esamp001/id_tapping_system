@@ -1,8 +1,7 @@
 // server.js
 require('dotenv').config();
 const express = require('express');
-const db = require('./db/knex'); // import your knex instance
-console.log(db, "DB")
+const db = require('./db/db'); // import your knex instance
 
 const app = express();
 const PORT = process.env.PORT || 5000;
