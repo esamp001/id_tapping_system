@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require("cors");
 const db = require('./db/db'); // import your knex instance
 
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 // Middleware
@@ -15,8 +16,11 @@ app.use(
 );
 app.use(express.json());
 
+// Routes
 
-const PORT = process.env.PORT || 5000;
+
+
+
 
 app.use(express.json());
 

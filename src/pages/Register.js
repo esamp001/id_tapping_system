@@ -98,9 +98,10 @@ const Register = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            width: { xs: '100%', md: '30%' },
+                            width: { xs: '100%', md: '25%' },
                             textAlign: 'center',
                             gap: 2,
+                            ml: 10
                         }}
                     >
                         <img
