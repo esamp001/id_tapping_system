@@ -8,6 +8,14 @@ const Register = () => {
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
 
+    const [formData, setFormData] = useState({
+        unqiue_id: "",
+        full_name: "",
+        email_address: "",
+        academic_grade: "",
+        phone_number: ""
+    })
+
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -15,6 +23,14 @@ const Register = () => {
             setPreview(URL.createObjectURL(file));
         }
     };
+
+    const handleChange (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
 
     return (
         <>
