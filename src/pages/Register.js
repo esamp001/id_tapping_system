@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, TextField, Button, Avatar } from '@mui/material';
 import RightImage from "../assets/image_right.png";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -7,7 +7,6 @@ import TopBar from "./TopBar";
 const Register = () => {
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
-
     const [formData, setFormData] = useState({
         unqiue_id: "",
         full_name: "",
@@ -15,6 +14,10 @@ const Register = () => {
         academic_grade: "",
         phone_number: ""
     })
+
+    useEffect(() => {
+        console.log(formData, "formData")
+    }, [formData])
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -24,13 +27,13 @@ const Register = () => {
         }
     };
 
-    const handleChange (e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
             [name]: value
         }));
-    }
+    };
 
     return (
         <>
@@ -98,11 +101,47 @@ const Register = () => {
                         {/* User Info */}
                         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}>
                             <Typography variant="h6">User Information</Typography>
-                            <TextField label="Unique ID" placeholder="e.g., ID-001-A-XYZ" fullWidth />
-                            <TextField label="Full Name" placeholder="John Doe" fullWidth />
-                            <TextField label="Email Address" placeholder="john.doe@example.com" type="email" fullWidth />
-                            <TextField label="Academic Grade" placeholder="e.g., Junior, Senior, Postgraduate" fullWidth />
-                            <TextField label="Phone Number" placeholder="e.g., +1 (555) 123-4567" fullWidth />
+                            <TextField
+                                label="Unique ID"
+                                name="unique_id"
+                                placeholder="e.g., ID-001-A-XYZ"
+                                value={formData.unique_id}
+                                onChange={handleChange}
+                                fullWidth
+                            />
+                            <TextField
+                                label="Full Name"
+                                name="full_name"
+                                placeholder="John Doe"
+                                value={formData.full_name}
+                                onChange={handleChange}
+                                fullWidth
+                            />
+                            <TextField
+                                label="Email Address"
+                                name="email_address"
+                                placeholder="john.doe@example.com"
+                                type="email"
+                                value={formData.email_address}
+                                onChange={handleChange}
+                                fullWidth
+                            />
+                            <TextField
+                                label="Academic Grade"
+                                name="academic_grade"
+                                placeholder="e.g., Junior, Senior, Postgraduate"
+                                value={formData.academic_grade}
+                                onChange={handleChange}
+                                fullWidth
+                            />
+                            <TextField
+                                label="Phone Number"
+                                name="phone_number"
+                                placeholder="e.g., +1 (555) 123-4567"
+                                value={formData.phone_number}
+                                onChange={handleChange}
+                                fullWidth
+                            />
 
                             <Button variant="contained">Register</Button>
                         </Box>
