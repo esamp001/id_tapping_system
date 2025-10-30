@@ -102,10 +102,10 @@ const Register = () => {
                         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}>
                             <Typography variant="h6">User Information</Typography>
                             <TextField
-                                label="Unique ID"
-                                name="unique_id"
+                                label="ID Number"
+                                name="unqiue_id"
                                 placeholder="e.g., ID-001-A-XYZ"
-                                value={formData.unique_id}
+                                value={formData.unqiue_id}
                                 onChange={handleChange}
                                 fullWidth
                             />
@@ -129,7 +129,7 @@ const Register = () => {
                             <TextField
                                 label="Academic Grade"
                                 name="academic_grade"
-                                placeholder="e.g., Junior, Senior, Postgraduate"
+                                placeholder="e.g., Grade 1, Grade 2, Grade 3"
                                 value={formData.academic_grade}
                                 onChange={handleChange}
                                 fullWidth
@@ -137,7 +137,7 @@ const Register = () => {
                             <TextField
                                 label="Phone Number"
                                 name="phone_number"
-                                placeholder="e.g., +1 (555) 123-4567"
+                                placeholder="e.g., +63 XXXX XXXXXX"
                                 value={formData.phone_number}
                                 onChange={handleChange}
                                 fullWidth
