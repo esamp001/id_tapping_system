@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, TextField, Button, Avatar } from '@mui/material';
+import { Box, Typography, TextField, Button, Avatar, MenuItem } from '@mui/material';
 import RightImage from "../assets/image_right.png";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TopBar from "./TopBar";
@@ -14,14 +14,15 @@ const roles = [
 ];
 
 const Register = () => {
-    const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
     const [formData, setFormData] = useState({
+        avatar: "",
         unqiue_id: "",
         full_name: "",
         email_address: "",
         academic_grade: "",
-        phone_number: ""
+        phone_number: "",
+        role: ""
     })
 
 
@@ -32,8 +33,11 @@ const Register = () => {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setImage(file);
-            setPreview(URL.createObjectURL(file));
+            setFormData((prevData) => ({
+                ...prevData,
+                avatar: file,
+            }));
+            setPreview(URL.createObjectURL(file)); // For image preview
         }
     };
 
@@ -103,7 +107,7 @@ const Register = () => {
                             <Avatar
                                 src={preview}
                                 alt="Avatar Preview"
-                                sx={{ width: 100, height: 100 }}
+                                sx={{ width: 150, height: 150 }}
                             />
 
                             <Button
@@ -122,25 +126,44 @@ const Register = () => {
                         </Box>
 
                         {/* User Info */}
-                        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}>
-                            <Typography variant="h6">User Information</Typography>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                width: "100%",
+                                gap: 2,
+                            }}
+                        >
+                            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                User Information
+                            </Typography>
+
                             <TextField
+                                size="medium"
                                 label="ID Number"
                                 name="unqiue_id"
                                 placeholder="e.g., ID-001-A-XYZ"
                                 value={formData.unqiue_id}
                                 onChange={handleChange}
                                 fullWidth
+                                InputProps={{ sx: { fontSize: 15, height: 45 } }}
+                                InputLabelProps={{ sx: { fontSize: 14 } }}
                             />
+
                             <TextField
+                                size="medium"
                                 label="Full Name"
                                 name="full_name"
                                 placeholder="John Doe"
                                 value={formData.full_name}
                                 onChange={handleChange}
                                 fullWidth
+                                InputProps={{ sx: { fontSize: 15, height: 45 } }}
+                                InputLabelProps={{ sx: { fontSize: 14 } }}
                             />
+
                             <TextField
+                                size="medium"
                                 label="Email Address"
                                 name="email_address"
                                 placeholder="john.doe@example.com"
@@ -148,25 +171,65 @@ const Register = () => {
                                 value={formData.email_address}
                                 onChange={handleChange}
                                 fullWidth
+                                InputProps={{ sx: { fontSize: 15, height: 45 } }}
+                                InputLabelProps={{ sx: { fontSize: 14 } }}
                             />
+
                             <TextField
+                                size="medium"
                                 label="Academic Grade"
                                 name="academic_grade"
                                 placeholder="e.g., Grade 1, Grade 2, Grade 3"
                                 value={formData.academic_grade}
                                 onChange={handleChange}
                                 fullWidth
+                                InputProps={{ sx: { fontSize: 15, height: 45 } }}
+                                InputLabelProps={{ sx: { fontSize: 14 } }}
                             />
+
                             <TextField
+                                size="medium"
                                 label="Phone Number"
                                 name="phone_number"
                                 placeholder="e.g., +63 XXXX XXXXXX"
                                 value={formData.phone_number}
                                 onChange={handleChange}
                                 fullWidth
+                                InputProps={{ sx: { fontSize: 15, height: 45 } }}
+                                InputLabelProps={{ sx: { fontSize: 14 } }}
                             />
 
-                            <Button variant="contained" onClick={handleRegister}>
+                            {/* Role Dropdown */}
+                            <TextField
+                                select
+                                size="medium"
+                                label="Role"
+                                name="role"
+                                value={formData.role}
+                                onChange={handleChange}
+                                fullWidth
+                                InputProps={{ sx: { fontSize: 15, height: 45 } }}
+                                InputLabelProps={{ sx: { fontSize: 14 } }}
+                            >
+                                {roles.map((option) => (
+                                    <MenuItem key={option.value} value={option.value} sx={{ fontSize: 14 }}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+
+                            <Button
+                                variant="contained"
+                                onClick={handleRegister}
+                                sx={{
+                                    mt: 1,
+                                    width: '100%',
+                                    fontSize: 14,
+                                    height: 40,
+                                    textTransform: "none",
+                                    alignSelf: "flex-start",
+                                }}
+                            >
                                 Register
                             </Button>
                         </Box>
@@ -179,7 +242,7 @@ const Register = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',      // centers horizontally
-                            justifyContent: 'center',  // centers vertically
+                            justifyContent: 'end',  // centers vertically
                             width: '60%',
                             height: '77vh',           // full screen height (or adjust as needed)
                             textAlign: 'center',
@@ -188,12 +251,17 @@ const Register = () => {
                         <Lottie
                             animationData={registerAnimation}
                             loop={true}
-                            style={{ width: 300, height: 300 }}
+                            style={{ width: 400, height: 400 }}
                         />
 
-                        <Typography variant="subtitle2">
+                        <Typography variant="h5" sx={{ fontWeight: 600, mb: 1, mt : 3 }}>
+                            Registration Details
+                        </Typography>
+
+                        <Typography variant="subtitle2" color="text.secondary">
                             Quickly register your unique identifier and essential details to streamline system access and tracking.
                         </Typography>
+
                     </Box>
 
 
