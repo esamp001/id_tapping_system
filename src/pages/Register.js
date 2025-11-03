@@ -37,7 +37,7 @@ const Register = () => {
 
     // API FETCH - HANDLE REGISTER
     const handleRegister = () => {
-        
+
     }
 
     return (
@@ -69,6 +69,8 @@ const Register = () => {
                         justifyContent: 'center',
                         alignItems: 'flex-start',
                         gap: 6,
+                        justifyContent: 'flex-start',
+                        alignItems: 'flex-start',
                         border: '1px solid'
                     }}
                 >
@@ -77,35 +79,40 @@ const Register = () => {
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            alignItems: 'flex-start',  // 👈 was 'center'
-                            justifyContent: 'flex-start', // 👈 ensures content starts at the top
+                            alignItems: 'flex-start',  // was 'center'
+                            justifyContent: 'flex-start', // ensures content starts at the top
                             width: { xs: '100%', md: '40%' },
                             gap: 3,
                             border: '1px solid red',
                             p: 2, // optional: adds padding inside
                         }}
                     >
-                        <Typography variant="h6">Upload Student Image</Typography>
+                        <Box>
+                            <Typography variant="h6" sx={{ fontWeight: 600 }}>Upload Profile Picture</Typography>
+                            <Typography variant="subtitle3">Choose a profile picture & upload your own</Typography>
+                        </Box>
 
-                        <Avatar
-                            src={preview}
-                            alt="Avatar Preview"
-                            sx={{ width: 100, height: 100 }}
-                        />
-
-                        <Button
-                            variant="contained"
-                            component="label"
-                            sx={{ textTransform: "none" }}
-                        >
-                            Choose Image
-                            <input
-                                hidden
-                                accept="image/*"
-                                type="file"
-                                onChange={handleImageChange}
+                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', gap :2}}>
+                            <Avatar
+                                src={preview}
+                                alt="Avatar Preview"
+                                sx={{ width: 100, height: 100 }}
                             />
-                        </Button>
+
+                            <Button
+                                variant="outlined"
+                                component="label"
+                                sx={{ textTransform: "none", width: '100%' }}
+                            >
+                                Choose Image
+                                <input
+                                    hidden
+                                    accept="image/*"
+                                    type="file"
+                                    onChange={handleImageChange}
+                                />
+                            </Button>
+                        </Box>
 
                         {/* User Info */}
                         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}>
@@ -165,10 +172,11 @@ const Register = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            width: { xs: '100%', md: '25%' },
+                            width: '100%',
                             textAlign: 'center',
                             gap: 2,
-                            ml: 10
+                            ml: 10,
+                            border: '1px solid green'
                         }}
                     >
                         <img
