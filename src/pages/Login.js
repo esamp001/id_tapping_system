@@ -4,40 +4,49 @@ import SupervisorAccountOutlinedIcon from "@mui/icons-material/SupervisorAccount
 import TopBar from "./TopBar";
 import LoginAnimation from "../assets/Welcome Green.json"
 import Lottie from "lottie-react";
+import { useNavigate } from "react-router-dom";
+import showSnackbar from "../hooks/useSnackbar"
 
 const Login = () => {
-    const [studentId, setStudentId] = useState("");
+    const [uniqueId, setUniqueId] = useState("");
+    const [userType, setUserType] = useState("student");
+    const navigate = useNavigate();
+    const { showSnackbar, SnackbarComponent } = useSnackbar();
 
-    const handleStudentLogin = async () => {
-        if (!studentId) {
-            alert("Please enter your Student ID");
+    const handleLogin = async () => {
+        if (!uniqueId) {
+            showSnackbar("Please enter your ID", "warning");
             return;
         }
 
+        const route =
+            userType === "student"
+                ? "/loginRoutes/login/students"
+                : "/loginRoutes/login/admins";
+
         try {
-            const response = await fetch("/loginRoutes/login/students", {
+            const response = await fetch(route, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ studentId }),
-                credentials: "include", // important for sending/receiving cookies
+                body: JSON.stringify({ uniqueId }),
+                credentials: "include",
             });
 
             if (!response.ok) {
-                throw new Error("Student login failed");
+                throw new Error("Login failed");
             }
 
             const data = await response.json();
             console.log("Login successful:", data);
 
-            // Example: redirect to student dashboard
-            navigate("/student/dashboard"); // if using react-router
+            showSnackbar("Login successful!", "success");
+            navigate("/dashboard"); // Navigate to dashboard
 
         } catch (error) {
-            console.error("Error during student login:", error.message);
-            alert("Login failed: " + error.message);
+            console.error("Error during login:", error.message);
+            showSnackbar("Login failed: " + error.message, "error");
         }
     };
-
 
     const handleAdminLogin = () => {
         console.log("Admin login clicked");
@@ -81,13 +90,13 @@ const Login = () => {
                             label="Student ID"
                             variant="outlined"
                             value={studentId}
-                            onChange={(e) => setStudentId(e.target.value)}
+                            onChange={(e) => setUniqueId(e.target.value)}
                             fullWidth
                             sx={{ mb: 2 }}
                             autoFocus
                         />
 
-                        <Button variant="contained" color="primary" fullWidth onClick={handleStudentLogin} sx={{ py: 1.5, mb: 1 }}>
+                        <Button variant="contained" color="primary" fullWidth onClick={handleLogin} sx={{ py: 1.5, mb: 1 }}>
                             Access Dashboard
                         </Button>
 

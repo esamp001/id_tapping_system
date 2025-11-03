@@ -28,11 +28,6 @@ const Register = () => {
         role: ""
     })
 
-
-    useEffect(() => {
-        console.log(formData, "formData")
-    }, [formData])
-
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
