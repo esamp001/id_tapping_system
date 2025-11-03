@@ -14,7 +14,7 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
-    "connect-session-knex": "^5.0.0",
+    "connect-session-knex": "^1.7.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

@@ -2,7 +2,6 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require("cors");
-// const db = require('./db/db'); // import your knex instance
 const session = require("express-session");
 const KnexSessionStore = require("connect-session-knex")(session);
 const knex = require("./db/db")
