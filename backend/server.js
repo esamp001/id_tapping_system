@@ -45,8 +45,10 @@ app.use(
 
 // Routes
 const registerRoutes = require("./routes/RegisterRoutes")
+const loginRoutes = require("./routes/LoginRoutes")
 
 app.use("/RegisterRoutes", registerRoutes);
+app.use("/LoginRoutes", loginRoutes);
 
 // Run server
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

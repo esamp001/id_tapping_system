@@ -5,7 +5,7 @@ import TopBar from "./TopBar";
 import LoginAnimation from "../assets/Welcome Green.json"
 import Lottie from "lottie-react";
 import { useNavigate } from "react-router-dom";
-import showSnackbar from "../hooks/useSnackbar"
+import useSnackbar from "../hooks/useSnackbar"
 
 const Login = () => {
     const [uniqueId, setUniqueId] = useState("");
@@ -21,8 +21,8 @@ const Login = () => {
 
         const route =
             userType === "student"
-                ? "/loginRoutes/login/students"
-                : "/loginRoutes/login/admins";
+                ? "/LoginRoutes/login/students"
+                : "/LoginRoutes/login/admins";
 
         try {
             const response = await fetch(route, {
@@ -89,7 +89,7 @@ const Login = () => {
                         <TextField
                             label="Student ID"
                             variant="outlined"
-                            value={studentId}
+                            value={uniqueId}
                             onChange={(e) => setUniqueId(e.target.value)}
                             fullWidth
                             sx={{ mb: 2 }}
@@ -113,6 +113,7 @@ const Login = () => {
                     </CardContent>
                 </Card>
             </Box>
+            {SnackbarComponent}
         </Box>
     );
 };

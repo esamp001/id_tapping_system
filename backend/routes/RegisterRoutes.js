@@ -17,7 +17,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// PUT endpoint to register user
+// ----------------------
+// USER REGISTER
+// ----------------------
 router.put("/register/user", upload.single("avatar"), async (req, res) => {
     try {
         const { unqiue_id, full_name, email_address, academic_grade, phone_number, role } = req.body;
