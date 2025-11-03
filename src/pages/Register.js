@@ -68,7 +68,6 @@ const Register = () => {
                         flexDirection: { xs: 'column', md: 'row' },
                         justifyContent: 'center',
                         alignItems: 'flex-start',
-                        gap: 6,
                         justifyContent: 'flex-start',
                         alignItems: 'flex-start',
                         border: '1px solid'
@@ -81,7 +80,7 @@ const Register = () => {
                             flexDirection: 'column',
                             alignItems: 'flex-start',  // was 'center'
                             justifyContent: 'flex-start', // ensures content starts at the top
-                            width: { xs: '100%', md: '40%' },
+                            width: '40%',
                             gap: 3,
                             border: '1px solid red',
                             p: 2, // optional: adds padding inside
@@ -92,7 +91,7 @@ const Register = () => {
                             <Typography variant="subtitle3">Choose a profile picture & upload your own</Typography>
                         </Box>
 
-                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', gap :2}}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', gap: 2 }}>
                             <Avatar
                                 src={preview}
                                 alt="Avatar Preview"
@@ -172,11 +171,9 @@ const Register = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            width: '100%',
+                            width: '60%',
                             textAlign: 'center',
-                            gap: 2,
-                            ml: 10,
-                            border: '1px solid green'
+                            border: '1px solid green',
                         }}
                     >
                         <img
@@ -188,6 +185,7 @@ const Register = () => {
                             Quickly register your unique identifier and essential details to streamline system access and tracking.
                         </Typography>
                     </Box>
+
                 </Box>
             </Box>
         </>
