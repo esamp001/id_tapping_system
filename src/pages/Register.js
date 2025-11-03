@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, TextField, Button, Avatar, MenuItem } from '@mui/material';
-import RightImage from "../assets/image_right.png";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TopBar from "./TopBar";
 import Lottie from "lottie-react";

@@ -1,73 +1,79 @@
-import React, { useState, useEffect } from "react";
-import { Box, Typography, Divider, TextField, Button, Avatar } from '@mui/material'
-import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
+import React, { useState } from "react";
+import { Box, Typography, Divider, TextField, Button, Avatar, Card, CardContent } from "@mui/material";
+import SupervisorAccountOutlinedIcon from "@mui/icons-material/SupervisorAccountOutlined";
 import TopBar from "./TopBar";
 
 const Login = () => {
-    // States
+    const [studentId, setStudentId] = useState("");
     const [preview, setPreview] = useState(null);
 
+    const handleStudentLogin = () => {
+        console.log("Student ID:", studentId);
+        // Add your student login logic here
+    };
+
+    const handleAdminLogin = () => {
+        console.log("Admin login clicked");
+        // Redirect to admin login page or logic
+    };
+
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+        <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
             {/* Top Nav Bar */}
             <TopBar />
 
-            {/* Divider */}
             <Divider />
 
-            {/* Content below */}
+            {/* Centered Content */}
             <Box
                 sx={{
-                    display: 'flex',
-                    flex: { xs: '1 1 100%', sm: '1 1 48%' },
-                    minWidth: 200,
-                    mt: 2,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 100, // optional, sets vertical space
+                    flex: 1,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    p: 2,
                 }}
             >
-                <Box sx={{ textAlign: 'center', width: '60%', mt: 2 }}>
-                    <Typography sx={{ fontWeight: 600 }} variant="h6">Student Access</Typography>
-                    <Typography variant="subtitle2">Enter your Student ID to acesss attendance</Typography>
+                {/* Login Card */}
+                <Card sx={{ maxWidth: 400, width: "100%", p: 2, boxShadow: 3 }}>
+                    <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+                            Student Access
+                        </Typography>
+                        <Typography variant="subtitle2" sx={{ mb: 2, textAlign: "center" }}>
+                            Enter your Student ID to access attendance
+                        </Typography>
 
-                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                        <Avatar
-                            src={preview}
-                            alt="Avatar Preview"
-                            sx={{ width: 120, height: 120, mb: .5, mt: 2 }}
-                        />
-                    </Box>
+                        <Avatar src={preview} sx={{ width: 100, height: 100, mb: 2 }} />
 
-                    <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
-                        <TextField sx={{ width: '100%' }}
+                        <TextField
                             label="Student ID"
                             variant="outlined"
+                            value={studentId}
+                            onChange={(e) => setStudentId(e.target.value)}
                             fullWidth
-                            required
+                            sx={{ mb: 2 }}
                         />
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            sx={{ py: 1.5 }} // optional padding for taller button
-                        >
+
+                        <Button variant="contained" color="primary" fullWidth onClick={handleStudentLogin} sx={{ py: 1.5, mb: 1 }}>
                             Access Dashboard
                         </Button>
-                        <Box sx={{ mt: 1 }}>
-                            <Button
-                                variant="outlined"
-                                startIcon={<SupervisorAccountOutlinedIcon />} // adds icon to the left
-                            >
-                                Admin Login
-                            </Button>
-                        </Box>
-                    </Box>
-                </Box>
+
+                        <Divider sx={{ width: "100%", my: 2 }} />
+
+                        <Button
+                            variant="outlined"
+                            fullWidth
+                            startIcon={<SupervisorAccountOutlinedIcon />}
+                            onClick={handleAdminLogin}
+                        >
+                            Admin Login
+                        </Button>
+                    </CardContent>
+                </Card>
             </Box>
         </Box>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

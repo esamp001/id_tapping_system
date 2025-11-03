@@ -20,11 +20,15 @@ const upload = multer({ storage: storage });
 // PUT endpoint to register user
 router.put("/register/user", upload.single("avatar"), async (req, res) => {
     try {
-        const { full_name, email_address, academic_grade, phone_number, role } = req.body;
+        const { unqiue_id, full_name, email_address, academic_grade, phone_number, role } = req.body;
         const avatar = req.file ? req.file.filename : null;
 
         // Collect all validation errors
         const errors = {};
+
+        if (!unqiue_id || !unqiue_id.trim()) {
+            errors.unqiue_id = "Unique ID is required";
+        }
 
         if (!full_name || !full_name.trim()) {
             errors.full_name = "Full Name is required";
@@ -65,9 +69,16 @@ router.put("/register/user", upload.single("avatar"), async (req, res) => {
             return res.status(400).json({ message: "Validation failed", errors });
         }
 
+        // Optional: check if unique_id already exists
+        const existingUser = await knex("users").where({ unqiue_id }).first();
+        if (existingUser) {
+            return res.status(400).json({ message: "Unique ID already exists", errors: { unqiue_id: "This ID is already taken" } });
+        }
+
         // Insert into database
         const [user] = await knex("users")
             .insert({
+                unqiue_id,
                 full_name,
                 email_address,
                 academic_grade,
@@ -87,6 +98,7 @@ router.put("/register/user", upload.single("avatar"), async (req, res) => {
         res.status(500).json({ message: "Failed to register user", error: error.message });
     }
 });
+
 
 
 
