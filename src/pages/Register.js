@@ -6,6 +6,7 @@ import TopBar from "./TopBar";
 import Lottie from "lottie-react";
 import registerAnimation  from "../assets/Login lottie yellow.json"
 import useSnackbar from "../hooks/useSnackbar";
+import { useNavigate } from "react-router-dom";
 
 const roles = [
     { value: "student", label: "Student" },
@@ -15,6 +16,7 @@ const roles = [
 ];
 
 const Register = () => {
+    const navigate = useNavigate();
     const [preview, setPreview] = useState(null);
     const { showSnackbar, SnackbarComponent } = useSnackbar();
     const [formData, setFormData] = useState({
@@ -106,14 +108,17 @@ const Register = () => {
                         variant="outlined"
                         startIcon={<ArrowBackIcon />}
                         sx={{ mb: 2 }}
+                        onClick={() => navigate("/")}
                     >
                         Go to Tapping
                     </Button>
 
-                    <Typography variant="h5" sx={{ fontWeight: 600 }}>Register your ID</Typography>
-                    <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
-                        Enter your unique ID and personal details to get started with the ID tapping system.
-                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                        <Typography variant="h5" sx={{ fontWeight: 600 }}>Register your ID</Typography>
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+                            Enter your unique ID and personal details to get started with the ID tapping system.
+                        </Typography>
+                    </Box>
                 </Box>
 
                 {/* Main Content */}
@@ -139,7 +144,7 @@ const Register = () => {
                             p: 2, // optional: adds padding inside
                         }}
                     >
-                        <Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%'}}>
                             <Typography variant="h6" sx={{ fontWeight: 600 }}>Upload Profile Picture</Typography>
                             <Typography variant="subtitle3">Choose a profile picture & upload your own</Typography>
                         </Box>
