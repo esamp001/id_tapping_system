@@ -43,5 +43,18 @@ router.put("/login", async (req, res) => {
 });
 
 
+// ----------------------
+// USER CONTEXT
+// ----------------------
+router.get("/current-user", (req, res) => {
+    if (req.session.user) {
+        res.json({ user: req.session.user });
+    } else {
+        res.status(401).json({ message: "Not logged in" });
+    }
+});
+
+
+
 
 module.exports = router;

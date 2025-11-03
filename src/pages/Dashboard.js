@@ -4,6 +4,8 @@ import TopBar from './TopBar'
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 const activities = [
     { status: "In", time: "08:00 AM, Aug 1" },
@@ -12,6 +14,9 @@ const activities = [
 ];
 
 const Dashboard = () => {
+    const { user, setUser } = useContext(UserContext);
+
+    console.log(user, "user")
     return (
         <>
             <TopBar />
