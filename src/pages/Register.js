@@ -5,6 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TopBar from "./TopBar";
 import Lottie from "lottie-react";
 import registerAnimation  from "../assets/Login lottie yellow.json"
+import useSnackbar from "../hooks/useSnackbar";
 
 const roles = [
     { value: "student", label: "Student" },
@@ -15,6 +16,7 @@ const roles = [
 
 const Register = () => {
     const [preview, setPreview] = useState(null);
+    const { showSnackbar, SnackbarComponent } = useSnackbar();
     const [formData, setFormData] = useState({
         avatar: "",
         unqiue_id: "",
@@ -52,16 +54,15 @@ const Register = () => {
     // API FETCH - HANDLE REGISTER
     const handleRegister = async () => {
         try {
-            // Create FormData for sending files (avatar) + other fields
+            // Create FormData for sending files (avatar + other fields)
             const formPayload = new FormData();
             Object.entries(formData).forEach(([key, value]) => {
                 formPayload.append(key, value);
             });
 
             const response = await fetch('/RegisterRoutes/register/user', {
-                method: 'PUT', // Use PUT for updating or creating
+                method: 'PUT',
                 body: formPayload,
-                // Don't set Content-Type manually when using FormData
             });
 
             if (!response.ok) {
@@ -69,13 +70,29 @@ const Register = () => {
             }
 
             const result = await response.json();
-            console.log('Success:', result);
 
-            // Optional: clear form or show success message
+            // Show success snackbar
+            showSnackbar("User registered successfully!", "success");
+
+            // Optional: clear form or do something with result
+            setFormData({
+                avatar: "",
+                unqiue_id: "",
+                full_name: "",
+                email_address: "",
+                academic_grade: "",
+                phone_number: "",
+                role: ""
+            });
+            setPreview(null);
+
         } catch (error) {
-            console.error('Error registering user:', error);
+            console.error(error);
+            // Show error snackbar
+            showSnackbar("Failed to register user. Please try again.", "error");
         }
     };
+
 
 
     return (
@@ -285,11 +302,9 @@ const Register = () => {
                         <Typography variant="subtitle2" color="text.secondary">
                             Quickly register your unique identifier and essential details to streamline system access and tracking.
                         </Typography>
-
                     </Box>
-
-
                 </Box>
+                {SnackbarComponent}
             </Box>
         </>
     );
