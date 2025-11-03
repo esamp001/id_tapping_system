@@ -26,7 +26,8 @@ router.put("/login", async (req, res) => {
 
         // Create session as a single object
         req.session.user = {
-            id: user.unqiue_id,      // or 'unique_id' if DB is fixed
+            id: user.id,
+            unqiue_id: user.unqiue_id,      // or 'unique_id' if DB is fixed
             name: user.name,
             role: user.role,
             last_login: now,
