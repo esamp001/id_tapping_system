@@ -45,6 +45,65 @@ const Register = () => {
         }
     };
 
+    const handleValidation = () => {
+        const { avatar, unqiue_id, full_name, email_address, academic_grade, phone_number, role } = formData;
+
+        // Check required fields
+        if (!unqiue_id.trim()) {
+            showSnackbar("ID Number is required", "error");
+            return false;
+        }
+
+        if (!full_name.trim()) {
+            showSnackbar("Full Name is required", "error");
+            return false;
+        }
+
+        if (!email_address.trim()) {
+            showSnackbar("Email Address is required", "error");
+            return false;
+        }
+
+        // Basic email regex check
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email_address)) {
+            showSnackbar("Email Address is invalid", "error");
+            return false;
+        }
+
+        if (!academic_grade.trim()) {
+            showSnackbar("Academic Grade is required", "error");
+            return false;
+        }
+
+        if (!phone_number.trim()) {
+            showSnackbar("Phone Number is required", "error");
+            return false;
+        }
+
+        // Optional: validate phone number pattern
+        const phoneRegex = /^\+?\d{10,15}$/;
+        if (!phoneRegex.test(phone_number)) {
+            showSnackbar("Phone Number is invalid", "error");
+            return false;
+        }
+
+        if (!role.trim()) {
+            showSnackbar("Role is required", "error");
+            return false;
+        }
+
+        // Optional: check avatar file
+        if (!avatar) {
+            showSnackbar("Avatar is required", "error");
+            return false;
+        }
+
+        // All validations passed
+        return true;
+    };
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -61,6 +120,10 @@ const Register = () => {
             Object.entries(formData).forEach(([key, value]) => {
                 formPayload.append(key, value);
             });
+
+            if (!handleValidation()) {
+                return; // stop if validation fails
+            }
 
             const response = await fetch('/RegisterRoutes/register/user', {
                 method: 'PUT',
