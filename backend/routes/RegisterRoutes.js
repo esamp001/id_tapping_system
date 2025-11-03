@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
-const knex = require("../db/knex"); // adjust path to your knex config
+const knex = require("../db/db") // adjust path to your knex config
 
 // Configure multer storage
 const storage = multer.diskStorage({
