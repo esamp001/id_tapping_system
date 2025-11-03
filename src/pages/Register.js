@@ -35,10 +35,15 @@ const Register = () => {
         }));
     };
 
+    // API FETCH - HANDLE REGISTER
+    const handleRegister = () => {
+        
+    }
+
     return (
         <>
             <TopBar />
-            <Box sx={{ p: 4, display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <Box sx={{ p: 10, display: 'flex', flexDirection: 'column', gap: 4 }}>
 
                 {/* Header */}
                 <Box>
@@ -64,6 +69,7 @@ const Register = () => {
                         justifyContent: 'center',
                         alignItems: 'flex-start',
                         gap: 6,
+                        border: '1px solid'
                     }}
                 >
                     {/* Left Form */}
@@ -71,9 +77,12 @@ const Register = () => {
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            alignItems: 'center',
+                            alignItems: 'flex-start',  // 👈 was 'center'
+                            justifyContent: 'flex-start', // 👈 ensures content starts at the top
                             width: { xs: '100%', md: '40%' },
                             gap: 3,
+                            border: '1px solid red',
+                            p: 2, // optional: adds padding inside
                         }}
                     >
                         <Typography variant="h6">Upload Student Image</Typography>
@@ -143,9 +152,12 @@ const Register = () => {
                                 fullWidth
                             />
 
-                            <Button variant="contained">Register</Button>
+                            <Button variant="contained" onClick={handleRegister}>
+                                Register
+                            </Button>
                         </Box>
                     </Box>
+
 
                     {/* Right Image */}
                     <Box
