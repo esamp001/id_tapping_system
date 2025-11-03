@@ -50,9 +50,33 @@ const Register = () => {
     };
 
     // API FETCH - HANDLE REGISTER
-    const handleRegister = () => {
+    const handleRegister = async () => {
+        try {
+            // Create FormData for sending files (avatar) + other fields
+            const formPayload = new FormData();
+            Object.entries(formData).forEach(([key, value]) => {
+                formPayload.append(key, value);
+            });
 
-    }
+            const response = await fetch('/RegisterRoutes/register/user', {
+                method: 'PUT', // Use PUT for updating or creating
+                body: formPayload,
+                // Don't set Content-Type manually when using FormData
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('Success:', result);
+
+            // Optional: clear form or show success message
+        } catch (error) {
+            console.error('Error registering user:', error);
+        }
+    };
+
 
     return (
         <>
