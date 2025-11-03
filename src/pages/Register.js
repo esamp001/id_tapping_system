@@ -3,6 +3,15 @@ import { Box, Typography, TextField, Button, Avatar } from '@mui/material';
 import RightImage from "../assets/image_right.png";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TopBar from "./TopBar";
+import Lottie from "lottie-react";
+import registerAnimation  from "../assets/Login lottie yellow.json"
+
+const roles = [
+    { value: "student", label: "Student" },
+    { value: "teacher", label: "Teacher" },
+    { value: "admin", label: "Admin" },
+    { value: "staff", label: "Staff" },
+];
 
 const Register = () => {
     const [image, setImage] = useState(null);
@@ -14,6 +23,7 @@ const Register = () => {
         academic_grade: "",
         phone_number: ""
     })
+
 
     useEffect(() => {
         console.log(formData, "formData")
@@ -70,7 +80,6 @@ const Register = () => {
                         alignItems: 'flex-start',
                         justifyContent: 'flex-start',
                         alignItems: 'flex-start',
-                        border: '1px solid'
                     }}
                 >
                     {/* Left Form */}
@@ -82,7 +91,6 @@ const Register = () => {
                             justifyContent: 'flex-start', // ensures content starts at the top
                             width: '40%',
                             gap: 3,
-                            border: '1px solid red',
                             p: 2, // optional: adds padding inside
                         }}
                     >
@@ -175,13 +183,12 @@ const Register = () => {
                             width: '60%',
                             height: '77vh',           // full screen height (or adjust as needed)
                             textAlign: 'center',
-                            border: '1px solid green',
                         }}
                     >
-                        <img
-                            src={RightImage}
-                            alt="RightImage"
-                            style={{ width: '400px', height: 'auto' }} // explicitly sets image width
+                        <Lottie
+                            animationData={registerAnimation}
+                            loop={true}
+                            style={{ width: 300, height: 300 }}
                         />
 
                         <Typography variant="subtitle2">
