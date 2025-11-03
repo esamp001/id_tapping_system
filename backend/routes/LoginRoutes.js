@@ -8,6 +8,7 @@ const knex = require("../db/db"); // your knex instance
 // ----------------------
 router.put("/login", async (req, res) => {
     const { uniqueId } = req.body;
+    console.log(uniqueId, "uniqueId")
 
     if (!uniqueId) {
         return res.status(400).json({ message: "ID is required" });
@@ -15,16 +16,21 @@ router.put("/login", async (req, res) => {
 
     try {
         // Query the users table
-        const user = await knex("users").where({ unique_id: uniqueId }).first();
+        const user = await knex("users").where({ unqiue_id: uniqueId }).first();
 
         if (!user) {
             return res.status(401).json({ message: "Invalid ID" });
         }
 
-        // Save session
-        req.session.userId = user.unique_id;
-        req.session.userType = user.role; // role column: 'student' | 'admin' etc.
-        req.session.name = user.name;
+        const now = new Date();
+
+        // Create session as a single object
+        req.session.user = {
+            id: user.unqiue_id,      // or 'unique_id' if DB is fixed
+            name: user.name,
+            role: user.role,
+            last_login: now,
+        };
 
         res.json({
             message: "Login successful",
