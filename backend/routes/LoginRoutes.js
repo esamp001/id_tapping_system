@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const knex = require("../db/knex"); // your knex instance
+const knex = require("../db/db"); // your knex instance
 // Assuming session middleware is applied in main app
 
 // ----------------------
