@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Box, Typography, Divider, TextField, Button, Avatar, Card, CardContent } from "@mui/material";
 import SupervisorAccountOutlinedIcon from "@mui/icons-material/SupervisorAccountOutlined";
 import TopBar from "./TopBar";
+import LoginAnimation from "../assets/Welcome Green.json"
+import Lottie from "lottie-react";
 
 const Login = () => {
     const [studentId, setStudentId] = useState("");
@@ -44,7 +46,11 @@ const Login = () => {
                             Enter your Student ID to access attendance
                         </Typography>
 
-                        <Avatar src={preview} sx={{ width: 100, height: 100, mb: 2 }} />
+                        <Lottie
+                            animationData={LoginAnimation}
+                            loop={true}
+                            style={{ width: 300, height: 200 }}
+                        />
 
                         <TextField
                             label="Student ID"
@@ -53,6 +59,7 @@ const Login = () => {
                             onChange={(e) => setStudentId(e.target.value)}
                             fullWidth
                             sx={{ mb: 2 }}
+                            autoFocus
                         />
 
                         <Button variant="contained" color="primary" fullWidth onClick={handleStudentLogin} sx={{ py: 1.5, mb: 1 }}>
