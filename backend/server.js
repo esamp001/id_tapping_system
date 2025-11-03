@@ -2,7 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require("cors");
-const db = require('./db/db'); // import your knex instance
+// const db = require('./db/db'); // import your knex instance
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -17,12 +17,9 @@ app.use(
 app.use(express.json());
 
 // Routes
+const registerRoutes = require("./routes/RegisterRoutes")
 
-
-
-
-
-app.use(express.json());
+app.use("/registerRoutes", registerRoutes);
 
 // Run server
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

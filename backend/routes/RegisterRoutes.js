@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // PUT endpoint to register user
-router.put("/user", upload.single("avatar"), async (req, res) => {
+router.put("/register/user", upload.single("avatar"), async (req, res) => {
     try {
         const { full_name, email_address, academic_grade, phone_number, role } = req.body;
         const avatar = req.file ? req.file.filename : null;
@@ -31,7 +31,7 @@ router.put("/user", upload.single("avatar"), async (req, res) => {
             phone_number,
             role,
             avatar
-        }).returning("*"); // PostgreSQL syntax; for MySQL remove .returning("*")
+        }).returning("*"); // .returning("*")
 
         res.status(201).json({
             message: "User registered successfully",
