@@ -19,31 +19,24 @@ const Login = () => {
             return;
         }
 
-        const route =
-            userType === "student"
-                ? "/LoginRoutes/login/students"
-                : "/LoginRoutes/login/admins";
-
         try {
-            const response = await fetch(route, {
-                method: "POST",
+            const response = await fetch("/LoginRoutes/login", {
+                method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ uniqueId }),
                 credentials: "include",
             });
 
-            if (!response.ok) {
-                throw new Error("Login failed");
-            }
+            if (!response.ok) throw new Error("Login failed");
 
             const data = await response.json();
             console.log("Login successful:", data);
 
             showSnackbar("Login successful!", "success");
-            navigate("/dashboard"); // Navigate to dashboard
+            navigate("/dashboard"); // same dashboard for all roles
 
         } catch (error) {
-            console.error("Error during login:", error.message);
+            console.error(error);
             showSnackbar("Login failed: " + error.message, "error");
         }
     };
