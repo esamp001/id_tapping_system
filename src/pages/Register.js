@@ -170,8 +170,10 @@ const Register = () => {
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            alignItems: 'center',
+                            alignItems: 'center',      // centers horizontally
+                            justifyContent: 'center',  // centers vertically
                             width: '60%',
+                            height: '77vh',           // full screen height (or adjust as needed)
                             textAlign: 'center',
                             border: '1px solid green',
                         }}
@@ -179,12 +181,14 @@ const Register = () => {
                         <img
                             src={RightImage}
                             alt="RightImage"
-                            style={{ maxWidth: '100%', height: 'auto' }}
+                            style={{ width: '400px', height: 'auto' }} // explicitly sets image width
                         />
-                        <Typography variant='subtitle2'>
+
+                        <Typography variant="subtitle2">
                             Quickly register your unique identifier and essential details to streamline system access and tracking.
                         </Typography>
                     </Box>
+
 
                 </Box>
             </Box>
