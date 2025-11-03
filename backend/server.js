@@ -2,8 +2,10 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require("cors");
-console.log(cors, "cors")
 // const db = require('./db/db'); // import your knex instance
+const session = require("express-session");
+const KnexSessionStore = require("connect-session-knex")(session);
+const knex = require("./db/db")
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -16,6 +18,30 @@ app.use(
     })
 );
 app.use(express.json());
+
+// Setup session store with Knex
+const store = new KnexSessionStore({
+    knex,
+    tablename: "sessions", // name for your session table
+    createtable: true, // auto create if not exists
+    sidfieldname: "sid",
+    clearInterval: 1000 * 60 * 60, // clear expired sessions hourly
+});
+
+// Session configuration
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || "super-secret-key", // use .env in production
+        resave: false,
+        saveUninitialized: false,
+        store,
+        cookie: {
+            httpOnly: true, // can't access via JS
+            secure: false, // true if using HTTPS
+            maxAge: 1000 * 60 * 60 * 2, // 2 hours
+        },
+    })
+);
 
 // Routes
 const registerRoutes = require("./routes/RegisterRoutes")

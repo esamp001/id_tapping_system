@@ -7,12 +7,37 @@ import Lottie from "lottie-react";
 
 const Login = () => {
     const [studentId, setStudentId] = useState("");
-    const [preview, setPreview] = useState(null);
 
-    const handleStudentLogin = () => {
-        console.log("Student ID:", studentId);
-        // Add your student login logic here
+    const handleStudentLogin = async () => {
+        if (!studentId) {
+            alert("Please enter your Student ID");
+            return;
+        }
+
+        try {
+            const response = await fetch("/loginRoutes/login/students", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ studentId }),
+                credentials: "include", // important for sending/receiving cookies
+            });
+
+            if (!response.ok) {
+                throw new Error("Student login failed");
+            }
+
+            const data = await response.json();
+            console.log("Login successful:", data);
+
+            // Example: redirect to student dashboard
+            navigate("/student/dashboard"); // if using react-router
+
+        } catch (error) {
+            console.error("Error during student login:", error.message);
+            alert("Login failed: " + error.message);
+        }
     };
+
 
     const handleAdminLogin = () => {
         console.log("Admin login clicked");
