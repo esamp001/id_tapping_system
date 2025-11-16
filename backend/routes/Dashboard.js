@@ -8,6 +8,7 @@ const knex = require("../db/db"); // your knex instance
 router.get("/dashboard", async (req, res) => {
   try {
     const user = req.session.user;
+    console.log(user, "user");
 
     if (!user) {
       return res.status(401).json({ message: "Not logged in" });
@@ -27,9 +28,10 @@ router.get("/dashboard", async (req, res) => {
 
     // Fetch today's attendance logs
     const attendance = await knex("attendance_logs")
-      .where({ user_id: user.id, log_date: today })
+      .where({ user_id: user.id })
       .first();
 
+    console.log(attendance, "attendance");
     let remarks = [];
 
     if (attendance) {
@@ -42,6 +44,9 @@ router.get("/dashboard", async (req, res) => {
       if (attendance.time_out_evening) remarks.push("Time out for afternoon");
     }
 
+    // Only get the latest push
+    remarks = remarks.slice(-1);
+
     const sanitizedUserInfo = {
       id: userInfo.id,
       full_name: userInfo.full_name,
@@ -52,7 +57,9 @@ router.get("/dashboard", async (req, res) => {
         month: "long",
         year: "numeric",
       }), //Readable - 10:30 AM, Tuesday, 12/12/2025
-      avatar: userInfo.avatar,
+      avatar: userInfo.avatar
+        ? `${req.protocol}://${req.get("host")}/uploads/${userInfo.avatar}`
+        : null, // fallback if no avatar
       role: userInfo.role,
       remarks: remarks.length ? remarks : ["No logs yet"],
     };

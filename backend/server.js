@@ -50,6 +50,7 @@ const dashboardRoutes = require("./routes/Dashboard");
 app.use("/RegisterRoutes", registerRoutes);
 app.use("/LoginRoutes", loginRoutes);
 app.use("/Dashboard", dashboardRoutes);
+app.use("/uploads", express.static("uploads"));
 
 // Run server
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
