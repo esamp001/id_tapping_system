@@ -7,55 +7,85 @@ const knex = require("../db/db"); // your knex instance
 // USER LOGIN
 // ----------------------
 router.put("/login", async (req, res) => {
-    const { uniqueId } = req.body;
-    console.log(uniqueId, "uniqueId")
+  const { uniqueId } = req.body;
 
-    if (!uniqueId) {
-        return res.status(400).json({ message: "ID is required" });
-    }
+  if (!uniqueId) {
+    return res.status(400).json({ message: "ID is required" });
+  }
 
-    try {
-        // Query the users table
-        const user = await knex("users").where({ unqiue_id: uniqueId }).first();
+  try {
+    const user = await knex("users").where({ unqiue_id: uniqueId }).first();
+    if (!user) return res.status(401).json({ message: "Invalid ID" });
 
-        if (!user) {
-            return res.status(401).json({ message: "Invalid ID" });
-        }
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+    const currentTime = now.toTimeString().split(" ")[0];
+    const hour = now.getHours();
 
-        const now = new Date();
+    req.session.user = {
+      id: user.id,
+      unique_id: user.unqiue_id,
+      full_name: user.full_name,
+      role: user.role,
+      last_login: now,
+    };
 
-        // Create session as a single object
-        req.session.user = {
-            id: user.id,
-            unqiue_id: user.unqiue_id,      // or 'unique_id' if DB is fixed
-            name: user.name,
-            role: user.role,
-            last_login: now,
-        };
+    let log = await knex("attendance_logs")
+      .where({ user_id: user.id, log_date: today })
+      .first();
 
-        res.json({
-            message: "Login successful",
-            user: { name: user.name, type: user.role },
+    // Create new record if none exists
+    if (!log) {
+      const insertData = { user_id: user.id, log_date: today };
+
+      if (hour < 11) insertData.time_in_morning = currentTime;
+      else if (hour < 13) insertData.time_out_lunch = currentTime;
+      else if (hour < 15) insertData.time_in_afternoon = currentTime;
+      else insertData.time_out_evening = currentTime;
+
+      await knex("attendance_logs").insert(insertData);
+    } else {
+      // Time-based strict update — NO sequential fallback
+      if (hour < 11 && !log.time_in_morning) {
+        await knex("attendance_logs").where({ id: log.id }).update({
+          time_in_morning: currentTime,
         });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Server error" });
+      } else if (hour < 13 && !log.time_out_lunch) {
+        await knex("attendance_logs").where({ id: log.id }).update({
+          time_out_lunch: currentTime,
+        });
+      } else if (hour < 15 && !log.time_in_afternoon) {
+        await knex("attendance_logs").where({ id: log.id }).update({
+          time_in_afternoon: currentTime,
+        });
+      } else if (hour >= 15 && !log.time_out_evening) {
+        await knex("attendance_logs").where({ id: log.id }).update({
+          time_out_evening: currentTime,
+        });
+      } else {
+        console.log("This time slot is already filled — do nothing.");
+      }
     }
-});
 
+    res.json({
+      message: "Login successful",
+      user: { full_name: user.full_name, role: user.role },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 // ----------------------
 // USER CONTEXT
 // ----------------------
 router.get("/current-user", (req, res) => {
-    if (req.session.user) {
-        res.json({ user: req.session.user });
-    } else {
-        res.status(401).json({ message: "Not logged in" });
-    }
+  if (req.session.user) {
+    res.json({ user: req.session.user });
+  } else {
+    res.status(401).json({ message: "Not logged in" });
+  }
 });
-
-
-
 
 module.exports = router;
