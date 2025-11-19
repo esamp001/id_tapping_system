@@ -74,4 +74,65 @@ router.get("/dashboard", async (req, res) => {
   }
 });
 
+router.get("/activity", async (req, res) => {
+  const { userId } = req.query;
+
+  if (!userId) {
+    return res.status(400).json({ message: "userId is required" });
+  }
+
+  try {
+    const activityResult = await knex("attendance_logs")
+      .select(
+        "log_date",
+        "time_in_morning",
+        "time_out_lunch",
+        "time_in_afternoon",
+        "time_out_evening"
+      )
+      .where("user_id", userId)
+      .orderBy("log_date", "desc");
+
+    const row = activityResult[0];
+
+    const formatTimeReadable = (time) => {
+      if (!time) return "N/A";
+      const [hourStr, minuteStr] = time.split(":");
+      let hours = parseInt(hourStr, 10);
+      const minutes = minuteStr;
+      const ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12;
+      return `${hours}:${minutes}${ampm}`;
+    };
+
+    const sanitizedResult = {
+      0: [
+        formatTimeReadable(row.time_in_morning),
+        row.log_date,
+        row.time_in_morning ? "IN" : "Didn't time in - Morning IN",
+      ],
+      1: [
+        formatTimeReadable(row.time_out_lunch),
+        row.log_date,
+        row.time_out_lunch ? "OUT" : "Didn't time in - Morning OUT",
+      ],
+      2: [
+        formatTimeReadable(row.time_in_afternoon),
+        row.log_date,
+        row.time_in_afternoon ? "IN" : "Didn't time in - Afternoon IN",
+      ],
+      3: [
+        formatTimeReadable(row.time_out_evening),
+        row.log_date,
+        row.time_out_evening ? "OUT" : "Didn't time in - Afternoon OUT",
+      ],
+    };
+
+    res.json({ data: sanitizedResult });
+  } catch (error) {
+    console.error("Error fetching attendance logs:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 module.exports = router;

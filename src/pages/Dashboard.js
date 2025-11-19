@@ -7,7 +7,7 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import useSnackbar from "../hooks/useSnackbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const activities = [
   { status: "In", time: "08:00 AM, Aug 1" },
@@ -16,12 +16,17 @@ const activities = [
 ];
 
 const Dashboard = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  console.log(user, "user");
+
   const { showSnackbar, SnackbarComponent } = useSnackbar();
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Sate
   const [userInfo, setUserInfo] = useState([]);
+  const [recentActivity, setRecentActivity] = useState([]);
+  console.log(recentActivity, "recentActivity");
 
   // Look up user details after login
   useEffect(() => {
@@ -37,7 +42,13 @@ const Dashboard = () => {
         const data = await response.json();
         setUserInfo(data.user);
 
-        showSnackbar("Time In successful!", "success");
+        // Show snackbar only when NOT coming back from Attendance History
+        const cameFromAttendanceHistory =
+          location.state && location.state.from === "attendanceHistory";
+
+        if (!cameFromAttendanceHistory) {
+          showSnackbar("Time In successful!", "success");
+        }
       } catch (error) {
         console.error(error);
         showSnackbar("Time In failed: " + error.message, "error");
@@ -45,7 +56,38 @@ const Dashboard = () => {
     };
 
     fetchUser();
-  }, []);
+  }, [location.state]);
+
+  // Fetch for activity
+  useEffect(() => {
+    if (!user || !user.id) return;
+
+    const fetchActivity = async () => {
+      try {
+        const response = await fetch(`/Dashboard/activity?userId=${user.id}`, {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch activity");
+
+        const data = await response.json();
+        console.log(data, "data");
+
+        const activities = Object.values(data.data).map((value) => ({
+          time: value[0],
+          date: value[1],
+          remarks: value[2],
+        }));
+
+        setRecentActivity(activities);
+      } catch (error) {
+        console.error("Error fetching activity:", error);
+      }
+    };
+
+    fetchActivity();
+  }, [user]);
 
   return (
     <>
@@ -159,7 +201,7 @@ const Dashboard = () => {
           }}
         >
           <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, mt: 1 }}>
-            Recent Activity
+            Daily Activity
           </Typography>
           <Box
             sx={{
@@ -168,35 +210,51 @@ const Dashboard = () => {
               pr: 1,
             }}
           >
-            {activities.map((activity, index) => (
-              <React.Fragment key={index}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    py: 1.5,
-                  }}
-                >
-                  <Typography
+            {recentActivity.map((activity, index, arr) => {
+              // Determine what to show on the right side
+              const showTime =
+                activity.time && activity.time !== "N/A"
+                  ? activity.time
+                  : "N/A";
+
+              return (
+                <React.Fragment key={index}>
+                  <Box
                     sx={{
-                      fontWeight: 600,
-                      color: (theme) =>
-                        activity.status === "In"
-                          ? theme.palette.success.main
-                          : theme.palette.error.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      py: 1.5,
                     }}
                   >
-                    {activity.status}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {activity.time}
-                  </Typography>
-                </Box>
-                {index < activities.length - 1 && <Divider />}
-              </React.Fragment>
-            ))}
+                    {/* LEFT — Always show remarks */}
+                    <Typography
+                      sx={{
+                        fontWeight: 600,
+                        color: (theme) =>
+                          activity.remarks === "IN"
+                            ? theme.palette.success.main
+                            : theme.palette.error.main,
+                      }}
+                    >
+                      {activity.remarks}
+                    </Typography>
+
+                    {/* RIGHT — Show time or N/A */}
+                    <Typography
+                      variant="body2"
+                      sx={{ color: "text.secondary" }}
+                    >
+                      {showTime}
+                    </Typography>
+                  </Box>
+
+                  {index < arr.length - 1 && <Divider />}
+                </React.Fragment>
+              );
+            })}
           </Box>
+
           <Box
             sx={{
               mt: 2,
@@ -205,14 +263,19 @@ const Dashboard = () => {
               gap: 2,
             }}
           >
-            <Button
+            {/* <Button
               sx={{ borderRadius: 0.5, height: 50 }}
               variant="outlined"
               startIcon={<FileDownloadOutlinedIcon />}
             >
               Export to CSV
-            </Button>
-            <Button sx={{ borderRadius: 0.5, height: 50 }} variant="outlined">
+            </Button> */}
+
+            <Button
+              onClick={() => navigate("/attendance/history")}
+              sx={{ borderRadius: 0.5, height: 50 }}
+              variant="outlined"
+            >
               My Attendance History
             </Button>
           </Box>
