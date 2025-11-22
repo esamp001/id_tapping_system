@@ -23,4 +23,17 @@ module.exports = {
       directory: "./db/seeds",
     },
   },
+
+  production: {
+    client: "pg",
+    debug: true,
+    connection:
+      "postgresql://id_tapping_system_dev_user:Dix7CXTqZXFAn1dKrdeMe3xYy09PtUQF@dpg-d4gj3mbuibrs73d10ni0-a.singapore-postgres.render.com:5432/id_tapping_system_dev?ssl=true",
+    migrations: {
+      directory: "./db/migrations",
+    },
+    seeds: {
+      directory: "./db/seeds",
+    },
+  },
 };
