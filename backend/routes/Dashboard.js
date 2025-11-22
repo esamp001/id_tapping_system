@@ -8,7 +8,6 @@ const knex = require("../db/db"); // your knex instance
 router.get("/dashboard", async (req, res) => {
   try {
     const user = req.session.user;
-    console.log(user, "user");
 
     if (!user) {
       return res.status(401).json({ message: "Not logged in" });
@@ -31,7 +30,6 @@ router.get("/dashboard", async (req, res) => {
       .where({ user_id: user.id })
       .first();
 
-    console.log(attendance, "attendance");
     let remarks = [];
 
     if (attendance) {
@@ -109,28 +107,89 @@ router.get("/activity", async (req, res) => {
       0: [
         formatTimeReadable(row.time_in_morning),
         row.log_date,
-        row.time_in_morning ? "IN" : "Didn't time in - Morning IN",
+        row.time_in_morning ? "Morning IN" : "Didn't time in - Morning IN",
       ],
       1: [
         formatTimeReadable(row.time_out_lunch),
         row.log_date,
-        row.time_out_lunch ? "OUT" : "Didn't time in - Morning OUT",
+        row.time_out_lunch ? "Morning OUT" : "Didn't time in - Morning OUT",
       ],
       2: [
         formatTimeReadable(row.time_in_afternoon),
         row.log_date,
-        row.time_in_afternoon ? "IN" : "Didn't time in - Afternoon IN",
+        row.time_in_afternoon
+          ? "Afternoon IN"
+          : "Didn't time in - Afternoon IN",
       ],
       3: [
         formatTimeReadable(row.time_out_evening),
         row.log_date,
-        row.time_out_evening ? "OUT" : "Didn't time in - Afternoon OUT",
+        row.time_out_evening
+          ? "Afternoon OUT"
+          : "Didn't time in - Afternoon OUT",
       ],
     };
 
     res.json({ data: sanitizedResult });
   } catch (error) {
     console.error("Error fetching attendance logs:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/history", async (req, res) => {
+  const { userId, date } = req.query;
+
+  const formatTimeReadable = (time) => {
+    if (!time) return "N/A";
+    const [hourStr, minuteStr] = time.split(":");
+    let hours = parseInt(hourStr, 10);
+    const minutes = minuteStr;
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+    return `${hours}:${minutes}${ampm}`;
+  };
+
+  if (!userId) {
+    return res.status(400).json({ message: "userId is required" });
+  }
+
+  try {
+    let query = knex("attendance_logs")
+      .select(
+        "log_date",
+        "time_in_morning",
+        "time_out_lunch",
+        "time_in_afternoon",
+        "time_out_evening"
+      )
+      .where("user_id", userId)
+      .orderBy("log_date", "desc");
+
+    if (date) {
+      query = query.andWhere("log_date", date);
+    }
+
+    const rows = await query;
+
+    // Return raw DB values; frontend will handle formatting and duration
+    const history = rows.map((row) => ({
+      log_date: row.log_date.toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }), // Convert to readable
+      time_in_morning: formatTimeReadable(row.time_in_morning),
+      time_out_lunch: formatTimeReadable(row.time_out_lunch),
+      time_in_afternoon: formatTimeReadable(row.time_in_afternoon),
+      time_out_evening: formatTimeReadable(row.time_out_evening),
+    }));
+
+    console.log(history, "history");
+
+    res.json({ data: history });
+  } catch (error) {
+    console.error("Error fetching attendance history:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });

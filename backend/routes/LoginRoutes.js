@@ -78,6 +78,40 @@ router.put("/login", async (req, res) => {
 });
 
 // ----------------------
+// ADMIN LOGIN
+// ----------------------
+router.put("/adminLogin", async (req, res) => {
+  const { adminId } = req.body;
+
+  if (!adminId) {
+    return res.status(400).json({ message: "Admin ID is required" });
+  }
+
+  try {
+    const admin = await knex("users")
+      .where({ unqiue_id: adminId, role: "admin" })
+      .first();
+    if (!admin) return res.status(401).json({ message: "Invalid Admin ID" });
+
+    req.session.admin = {
+      id: admin.id,
+      unique_id: admin.unqiue_id,
+      full_name: admin.full_name,
+      role: admin.role,
+      last_login: new Date(),
+    };
+
+    res.json({
+      message: "Admin login successful",
+      admin: { full_name: admin.full_name, role: admin.role },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ----------------------
 // USER CONTEXT
 // ----------------------
 router.get("/current-user", (req, res) => {

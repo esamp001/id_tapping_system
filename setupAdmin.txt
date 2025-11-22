@@ -1,0 +1,21 @@
+INSERT INTO users (
+    unqiue_id,
+    full_name,
+    email_address,
+    academic_grade,
+    phone_number,
+    role,
+    avatar,
+    created_at,
+    updated_at
+) VALUES (
+    'ADMIN001',                   -- unique ID for admin
+    'System Administrator',       -- full name
+    'admin@example.com',          -- email
+    'N/A',                        -- academic grade
+    '+639171234567',              -- phone number
+    'admin',                      -- role
+    'admin.png',                  -- avatar filename
+    NOW(),                        -- created_at
+    NOW()                         -- updated_at
+);

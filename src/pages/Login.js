@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Typography,
@@ -14,18 +14,27 @@ import {
   DialogActions,
 } from "@mui/material";
 import SupervisorAccountOutlinedIcon from "@mui/icons-material/SupervisorAccountOutlined";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import TopBar from "./TopBar";
 import LoginAnimation from "../assets/Welcome Green.json";
 import Lottie from "lottie-react";
 import { useNavigate } from "react-router-dom";
 import useSnackbar from "../hooks/useSnackbar";
+import { Html5QrcodeScanner } from "html5-qrcode";
 
 const Login = () => {
   const [uniqueId, setUniqueId] = useState("");
-  const [userType, setUserType] = useState("student");
   const navigate = useNavigate();
   const { showSnackbar, SnackbarComponent } = useSnackbar();
   const [open, setOpen] = useState(false);
+  const [scannerVisible, setScannerVisible] = useState(false);
+  const [adminData, setAdminData] = useState({
+    adminId: "",
+  });
+
+  console.log(adminData, "adminData");
+
+  const qrRef = useRef(null); // ref for the scanner div
 
   const handleOpen = () => {
     setOpen(true);
@@ -52,7 +61,6 @@ const Login = () => {
       if (!response.ok) throw new Error("Login failed");
 
       const data = await response.json();
-      console.log("Login successful:", data);
 
       showSnackbar("Login successful!", "success");
       navigate("/dashboard"); // same dashboard for all roles
@@ -62,10 +70,65 @@ const Login = () => {
     }
   };
 
-  const handleAdminLogin = () => {
-    console.log("Admin login clicked");
-    // Redirect to admin login page or logic
+  // Handle Admin Login
+  const handleAdminLogin = async () => {
+    if (!adminData.adminId) {
+      showSnackbar("Please enter your Admin ID", "warning");
+      return;
+    }
+
+    try {
+      const response = await fetch("/LoginRoutes/adminLogin", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ adminId: adminData.adminId }),
+        credentials: "include",
+      });
+
+      if (!response.ok) throw new Error("Login failed");
+
+      const data = await response.json();
+      console.log(data);
+
+      showSnackbar("Login successful!", "success");
+      navigate("/scanning");
+    } catch (error) {
+      console.error(error);
+      showSnackbar("Login failed: " + error.message, "error");
+    }
   };
+
+  // Efffect
+  useEffect(() => {
+    let qrScanner;
+
+    if (scannerVisible) {
+      qrScanner = new Html5QrcodeScanner(
+        "qr-reader",
+        { fps: 10, qrbox: 250 },
+        false
+      );
+
+      qrScanner.render(
+        (decodedText) => {
+          console.log("QR Code scanned:", decodedText);
+          // Here you can call your login function
+          alert(`QR Code scanned: ${decodedText}`);
+          // Optionally hide scanner after successful scan
+          setScannerVisible(false);
+        },
+        (errorMessage) => {
+          console.warn("QR scan error:", errorMessage);
+        }
+      );
+    }
+
+    return () => {
+      if (qrScanner) {
+        qrScanner.clear().catch((err) => console.error(err));
+      }
+    };
+  }, [scannerVisible]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -126,16 +189,60 @@ const Login = () => {
               Access Dashboard
             </Button>
 
-            <Divider sx={{ width: "100%", my: 2 }} />
+            <Divider
+              sx={{
+                width: "100%",
+                my: 2,
+                "&::before, &::after": {
+                  borderColor: "rgba(0, 0, 0, 0.2)",
+                },
+                color: "rgba(0, 0, 0, 0.5)",
+                fontSize: "0.9rem",
+              }}
+            >
+              OR
+            </Divider>
 
-            {/* Use modal for admin login */}
             <Button
+              variant="outlined"
+              fullWidth
+              startIcon={<QrCodeScannerIcon />}
+              onClick={() => setScannerVisible(true)}
+              sx={{
+                py: 1.5,
+                borderRadius: 2,
+                borderColor: "#4caf50",
+                color: "#4caf50",
+                fontWeight: 600,
+                textTransform: "none",
+                "&:hover": {
+                  borderColor: "#43a047",
+                  backgroundColor: "rgba(76, 175, 80, 0.08)",
+                },
+              }}
+            >
+              Login by QR Code
+            </Button>
+
+            {scannerVisible && (
+              <div
+                id="qr-reader"
+                ref={qrRef}
+                style={{ width: "100%", marginTop: 20 }}
+              ></div>
+            )}
+
+            {/* <Divider sx={{ width: "100%", my: 2 }} /> */}
+
+            {/* For Staff to be scanned by student to be displayed on premises */}
+            <Button
+              sx={{ mt: 1 }}
               variant="outlined"
               fullWidth
               startIcon={<SupervisorAccountOutlinedIcon />}
               onClick={handleOpen}
             >
-              Admin Login
+              Generate QR for Student Login
             </Button>
 
             {/* If didn't registered yet */}
@@ -149,25 +256,18 @@ const Login = () => {
         </Card>
       </Box>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Admin Login</DialogTitle>
+        <DialogTitle>Generate QR for Student Login</DialogTitle>
         <DialogContent>
           <TextField
             label="Admin ID"
             variant="outlined"
-            // value={adminId}
-            // onChange={(e) => setAdminId(e.target.value)}
+            value={adminData.adminId}
+            onChange={(e) =>
+              setAdminData({ ...adminData, adminId: e.target.value })
+            }
             fullWidth
             sx={{ mb: 2 }}
             autoFocus
-          />
-          <TextField
-            label="Password"
-            variant="outlined"  
-            type="password"
-            // value={password}
-            // onChange={(e) => setPassword(e.target.value)}
-            fullWidth
-            sx={{ mb: 2 }}
           />
         </DialogContent>
         <DialogActions>

@@ -17,7 +17,10 @@ const activities = [
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
-  console.log(user, "user");
+
+  // Create 5 seconds countdown before redirecting to login
+  const [countdown, setCountdown] = useState(5);
+  const [stayOnDashboard, setStayOnDashboard] = useState(false);
 
   const { showSnackbar, SnackbarComponent } = useSnackbar();
   const navigate = useNavigate();
@@ -26,7 +29,6 @@ const Dashboard = () => {
   // Sate
   const [userInfo, setUserInfo] = useState([]);
   const [recentActivity, setRecentActivity] = useState([]);
-  console.log(recentActivity, "recentActivity");
 
   // Look up user details after login
   useEffect(() => {
@@ -72,7 +74,6 @@ const Dashboard = () => {
         if (!response.ok) throw new Error("Failed to fetch activity");
 
         const data = await response.json();
-        console.log(data, "data");
 
         const activities = Object.values(data.data).map((value) => ({
           time: value[0],
@@ -87,7 +88,22 @@ const Dashboard = () => {
     };
 
     fetchActivity();
-  }, [user]);
+  }, []);
+
+  // Function for condition if didn't click stay on dashboard within 5seconds will redirect to login
+  useEffect(() => {
+    if (stayOnDashboard) return; // do nothing, no redirect
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+
+    if (countdown === 0) {
+      navigate("/");
+    }
+
+    return () => clearInterval(timer);
+  }, [countdown, stayOnDashboard]);
 
   return (
     <>
@@ -173,6 +189,17 @@ const Dashboard = () => {
           />
         </Paper>
 
+        <Typography
+          variant="body1"
+          sx={{
+            fontWeight: 500,
+            color: "text.secondary",
+            mt: 2,
+          }}
+        >
+          Redirecting to login in <strong>{countdown}</strong> seconds...
+        </Typography>
+
         <Box
           sx={{
             display: "flex",
@@ -190,7 +217,11 @@ const Dashboard = () => {
           >
             Go back to login
           </Button>
-          <Button variant="contained" startIcon={<DashboardOutlinedIcon />}>
+          <Button
+            onClick={() => setStayOnDashboard(true)}
+            variant="contained"
+            startIcon={<DashboardOutlinedIcon />}
+          >
             Stay on Dashboard
           </Button>
         </Box>
