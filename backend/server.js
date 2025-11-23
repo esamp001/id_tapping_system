@@ -12,8 +12,11 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5000", // frontend URL
-    credentials: true, // allow cookies to be sent
+    origin: [
+      process.env.FRONTEND_URL,
+      "http://localhost:3000", // For local development
+    ],
+    credentials: true,
   })
 );
 app.use(express.json());
@@ -53,4 +56,11 @@ app.use("/Dashboard", dashboardRoutes);
 app.use("/uploads", express.static("uploads"));
 
 // Run server
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+// Remove the app.listen line and replace with:
+if (require.main === module) {
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+}
+
+module.exports = app;

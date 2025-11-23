@@ -14,14 +14,22 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "dayjs": "^1.11.18",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
     "html5-qrcode": "^2.3.8",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
     "lottie-react": "^2.4.1",
     "node-cron": "^4.2.1",
+    "pg": "^8.16.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.4",
     "react-scripts": "5.0.1",
+    "serverless-http": "^4.0.0",
     "simple-git": "^3.28.0",
     "web-vitals": "^2.1.4"
   },
@@ -48,5 +56,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "autogit.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esamp001/id_tapping_system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/esamp001/id_tapping_system/issues"
+  },
+  "homepage": "https://github.com/esamp001/id_tapping_system#readme"
 }
