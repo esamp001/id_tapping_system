@@ -55,6 +55,10 @@ app.use("/LoginRoutes", loginRoutes);
 app.use("/Dashboard", dashboardRoutes);
 app.use("/uploads", express.static("uploads"));
 
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
+
 // Run server
 // app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
