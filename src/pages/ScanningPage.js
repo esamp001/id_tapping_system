@@ -1,8 +1,57 @@
-import React from "react";
-import { Box, Typography, Button } from "@mui/material";
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  CircularProgress,
+  Alert,
+} from "@mui/material";
 import TopBar from "./TopBar";
+import { QRCodeCanvas } from "qrcode.react";
 
 const ScanningPage = () => {
+  const [qrValue, setQrValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [lastGenerated, setLastGenerated] = useState(null);
+
+  // Generate secure login QR code on mount
+  useEffect(() => {
+    generateLoginQR();
+  }, []);
+
+  // ---------
+  // API CALL
+  // ---------
+
+  const generateLoginQR = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch("/Dashboard/generate-login-qr", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate QR code");
+      }
+
+      const data = await response.json();
+      setQrValue(data.qrData);
+      setLastGenerated(new Date());
+      console.log("Login QR code generated:", data);
+    } catch (error) {
+      console.error("Error generating login QR code:", error);
+      setError("Failed to generate QR code. Please check admin access.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   return (
     <>
       <TopBar />
@@ -14,25 +63,25 @@ const ScanningPage = () => {
           p: 3,
         }}
       >
-        {/* Header */}
         <Typography
           variant="h4"
           sx={{ mb: 1, color: "#333", textAlign: "center" }}
         >
           QR Code Scanner
         </Typography>
+
         <Typography
           variant="body1"
           sx={{ mb: 4, color: "#555", textAlign: "center" }}
         >
-          Please scan here for Time In / Time Out
+          Please scan this QR code to record your attendance
         </Typography>
 
-        {/* QR Scanner Placeholder */}
+        {/* QR Code Box */}
         <Box
           sx={{
-            width: { xs: "250px", sm: "300px", md: "400px" },
-            height: { xs: "250px", sm: "300px", md: "400px" },
+            width: { xs: "250px", sm: "300px", md: "350px" },
+            height: { xs: "250px", sm: "300px", md: "350px" },
             border: "4px solid #4caf50",
             borderRadius: 2,
             display: "flex",
@@ -40,40 +89,49 @@ const ScanningPage = () => {
             justifyContent: "center",
             bgcolor: "#fff",
             position: "relative",
+            mb: 2,
           }}
         >
-          {/* Inner QR placeholder */}
-          <Box
-            sx={{
-              width: { xs: "120px", sm: "150px" },
-              height: { xs: "120px", sm: "150px" },
-              border: "2px dashed #4caf50",
-              borderRadius: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#4caf50",
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            QR CODE
-          </Box>
+          <QRCodeCanvas
+            value={qrValue}
+            size={220}
+            level={"H"}
+            includeMargin={true}
+          />
+        </Box>
 
-          {/* Overlay text */}
+        {error && (
+          <Alert severity="error" sx={{ mb: 2, width: "100%" }}>
+            {error}
+          </Alert>
+        )}
+
+        <Button
+          variant="contained"
+          color="success"
+          sx={{ mt: 2 }}
+          onClick={generateLoginQR}
+          disabled={loading}
+          startIcon={loading ? <CircularProgress size={20} /> : null}
+        >
+          {loading ? "Generating..." : "Generate New Login QR Code"}
+        </Button>
+
+        {lastGenerated && (
           <Typography
             variant="caption"
-            sx={{
-              position: "absolute",
-              bottom: { xs: "-30px", sm: "-40px" },
-              color: "#777",
-              textAlign: "center",
-              width: "100%",
-            }}
+            sx={{ color: "#777", mt: 2, textAlign: "center" }}
           >
-            Align your QR code within the frame
+            Last generated: {lastGenerated.toLocaleTimeString()}
           </Typography>
-        </Box>
+        )}
+
+        <Typography
+          variant="caption"
+          sx={{ color: "#555", mt: 1, textAlign: "center", display: "block" }}
+        >
+          This QR code is valid for 5 minutes and can be used for secure login
+        </Typography>
       </Box>
     </>
   );

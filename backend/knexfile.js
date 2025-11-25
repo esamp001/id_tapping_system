@@ -7,32 +7,32 @@ console.log("DB_NAME:", process.env.DB_NAME);
 console.log("DB_PORT:", process.env.DB_PORT);
 
 module.exports = {
-  // development: {
-  //   client: "pg",
-  //   connection: {
-  //     host: process.env.DB_HOST,
-  //     user: process.env.DB_USER,
-  //     password: process.env.DB_PASSWORD,
-  //     database: process.env.DB_NAME,
-  //     port: process.env.DB_PORT,
-  //   },
-  //   migrations: {
-  //     directory: "./db/migrations",
-  //   },
-  //   seeds: {
-  //     directory: "./db/seeds",
-  //   },
-  // },
-
   development: {
     client: "pg",
     connection: {
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false }, // needed for Render
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      port: process.env.DB_PORT,
     },
-    migrations: { directory: "./db/migrations" },
-    seeds: { directory: "./db/seeds" },
+    migrations: {
+      directory: "./db/migrations",
+    },
+    seeds: {
+      directory: "./db/seeds",
+    },
   },
+
+  // development: {
+  //   client: "pg",
+  //   connection: {
+  //     connectionString: process.env.DATABASE_URL,
+  //     ssl: { rejectUnauthorized: false }, // needed for Render
+  //   },
+  //   migrations: { directory: "./db/migrations" },
+  //   seeds: { directory: "./db/seeds" },
+  // },
 
   // production: {
   //   client: "pg",
@@ -49,13 +49,13 @@ module.exports = {
   //   },
   // },
 
-  production: {
-    client: "pg",
-    connection: {
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-    },
-    pool: { min: 2, max: 10 },
-    migrations: { directory: "./db/migrations" },
-  },
+  // production: {
+  //   client: "pg",
+  //   connection: {
+  //     connectionString: process.env.DATABASE_URL,
+  //     ssl: { rejectUnauthorized: false },
+  //   },
+  //   pool: { min: 2, max: 10 },
+  //   migrations: { directory: "./db/migrations" },
+  // },
 };

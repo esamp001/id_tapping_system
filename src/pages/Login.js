@@ -31,10 +31,61 @@ const Login = () => {
   const [adminData, setAdminData] = useState({
     adminId: "",
   });
+  const [cameraPermission, setCameraPermission] = useState(null);
 
   console.log(adminData, "adminData");
 
   const qrRef = useRef(null); // ref for the scanner div
+
+  // Check if running in secure context
+  const isSecureContext = () => {
+    return (
+      window.isSecureContext ||
+      window.location.protocol === "https:" ||
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1"
+    );
+  };
+
+  // Check camera permissions
+  const checkCameraPermission = async () => {
+    try {
+      // Check if running in secure context
+      if (!isSecureContext()) {
+        setCameraPermission("insecure_context");
+        showSnackbar(
+          "Camera access requires HTTPS or localhost. In development, use localhost or enable HTTPS.",
+          "error"
+        );
+        return false;
+      }
+
+      // Check if mediaDevices is supported
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setCameraPermission("not_supported");
+        showSnackbar("Camera not supported on this device", "error");
+        return false;
+      }
+
+      // Request camera permission
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+      });
+
+      // Stop the stream immediately after getting permission
+      stream.getTracks().forEach((track) => track.stop());
+      setCameraPermission("granted");
+      return true;
+    } catch (error) {
+      console.error("Camera permission error:", error);
+      setCameraPermission("denied");
+      showSnackbar(
+        "Camera access denied. Please enable camera permissions.",
+        "error"
+      );
+      return false;
+    }
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -51,7 +102,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("/LoginRoutes/login", {
+      const response = await fetch(`/LoginRoutes/login`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ uniqueId }),
@@ -67,6 +118,49 @@ const Login = () => {
     } catch (error) {
       console.error(error);
       showSnackbar("Login failed: " + error.message, "error");
+    }
+  };
+
+  // Handle QR Code Login
+  const handleQRCodeLogin = async (qrData) => {
+    try {
+      // First validate the QR code
+      const validateResponse = await fetch("/Dashboard/validate-qr-login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ qrData }),
+        credentials: "include",
+      });
+
+      const validationResult = await validateResponse.json();
+
+      if (!validateResponse.ok || !validationResult.valid) {
+        showSnackbar(validationResult.message || "Invalid QR code", "error");
+        return;
+      }
+
+      // QR code is valid, now login with the admin ID from QR
+      const loginResponse = await fetch("/LoginRoutes/adminLogin", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ adminId: validationResult.adminId }),
+        credentials: "include",
+      });
+
+      if (!loginResponse.ok) {
+        throw new Error("Login failed");
+      }
+
+      const loginData = await loginResponse.json();
+      console.log(loginData);
+
+      showSnackbar("QR Code login successful!", "success");
+      navigate("/scanning");
+    } catch (error) {
+      console.error(error);
+      showSnackbar("QR Code login failed: " + error.message, "error");
     }
   };
 
@@ -98,27 +192,42 @@ const Login = () => {
     }
   };
 
-  // Efffect
+  // QR Scanner Effect with mobile support
   useEffect(() => {
     let qrScanner;
 
     if (scannerVisible) {
-      qrScanner = new Html5QrcodeScanner(
-        "qr-reader",
-        { fps: 10, qrbox: 250 },
-        false
-      );
+      // Mobile-optimized configuration
+      const config = {
+        fps: 10,
+        qrbox: { width: 250, height: 250 },
+        aspectRatio: 1.0,
+        disableFlip: false,
+        supportedScanTypes: [0], // 0 = camera scan
+        videoConstraints: {
+          facingMode: "environment", // Use rear camera on mobile
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+        },
+      };
+
+      qrScanner = new Html5QrcodeScanner("qr-reader", config, false);
 
       qrScanner.render(
-        (decodedText) => {
+        async (decodedText) => {
           console.log("QR Code scanned:", decodedText);
-          // Here you can call your login function
-          alert(`QR Code scanned: ${decodedText}`);
-          // Optionally hide scanner after successful scan
+          // Vibrate on mobile for feedback (if supported)
+          if (navigator.vibrate) {
+            navigator.vibrate(200);
+          }
+          await handleQRCodeLogin(decodedText);
           setScannerVisible(false);
         },
         (errorMessage) => {
-          console.warn("QR scan error:", errorMessage);
+          // Only log errors that aren't just "no QR code found"
+          if (!errorMessage.includes("No QR code found")) {
+            console.warn("QR scan error:", errorMessage);
+          }
         }
       );
     }
@@ -128,7 +237,7 @@ const Login = () => {
         qrScanner.clear().catch((err) => console.error(err));
       }
     };
-  }, [scannerVisible]);
+  }, [scannerVisible, handleQRCodeLogin]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -225,11 +334,32 @@ const Login = () => {
             </Button>
 
             {scannerVisible && (
-              <div
-                id="qr-reader"
-                ref={qrRef}
-                style={{ width: "100%", marginTop: 20 }}
-              ></div>
+              <Box sx={{ width: "100%", mt: 2 }}>
+                <Typography
+                  variant="body2"
+                  sx={{ mb: 1, textAlign: "center", color: "#666" }}
+                >
+                  Position QR code within the frame to scan
+                </Typography>
+                <div
+                  id="qr-reader"
+                  ref={qrRef}
+                  style={{
+                    width: "100%",
+                    minHeight: "300px",
+                    position: "relative",
+                  }}
+                ></div>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  size="small"
+                  onClick={() => setScannerVisible(false)}
+                  sx={{ mt: 1, width: "100%" }}
+                >
+                  Cancel Scanning
+                </Button>
+              </Box>
             )}
 
             {/* <Divider sx={{ width: "100%", my: 2 }} /> */}

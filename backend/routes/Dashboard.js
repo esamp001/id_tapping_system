@@ -194,4 +194,99 @@ router.get("/history", async (req, res) => {
   }
 });
 
+// Generate secure QR code for login
+router.post("/generate-login-qr", async (req, res) => {
+  try {
+    const admin = req.session.admin;
+    if (!admin) {
+      return res.status(401).json({ message: "Admin access required" });
+    }
+
+    // Generate a secure token with timestamp and admin info
+    const token = require("crypto").randomBytes(32).toString("hex");
+    const timestamp = Date.now();
+    const qrData = JSON.stringify({
+      type: "login",
+      token: token,
+      adminId: admin.unique_id,
+      timestamp: timestamp,
+      expires: timestamp + 300000, // 5 minutes expiry
+    });
+
+    // Store in qr_codes table
+    await knex("qr_codes").insert({
+      qr_value: qrData,
+      generated_at: new Date(),
+    });
+
+    res.json({
+      qrData: qrData,
+      message: "Login QR code generated successfully",
+    });
+  } catch (error) {
+    console.error("Error generating login QR code:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Validate QR code for login
+router.post("/validate-qr-login", async (req, res) => {
+  try {
+    const { qrData } = req.body;
+    if (!qrData) {
+      return res.status(400).json({ message: "QR data is required" });
+    }
+
+    let parsedData;
+    try {
+      parsedData = JSON.parse(qrData);
+    } catch (err) {
+      return res.status(400).json({ message: "Invalid QR code format" });
+    }
+
+    // Check if it's a login QR code
+    if (parsedData.type !== "login") {
+      return res.status(400).json({ message: "Not a login QR code" });
+    }
+
+    // Check expiry
+    if (Date.now() > parsedData.expires) {
+      return res.status(400).json({ message: "QR code expired" });
+    }
+
+    // Verify QR code exists in database
+    const qrRecord = await knex("qr_codes").where({ qr_value: qrData }).first();
+
+    if (!qrRecord) {
+      return res.status(400).json({ message: "Invalid QR code" });
+    }
+
+    res.json({
+      valid: true,
+      adminId: parsedData.adminId,
+      message: "QR code validated successfully",
+    });
+  } catch (error) {
+    console.error("Error validating QR code:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.put("/qr-code", async (req, res) => {
+  try {
+    const { qrCode } = req.body;
+    if (!qrCode) {
+      return res.status(400).json({ message: "QR code is required" });
+    }
+    // Insert to table
+
+    const insertQrCode = await knex("qr_codes").insert({ qr_value: qrCode });
+
+    res.json({ message: "QR code updated successfully" });
+  } catch (error) {
+    console.error("Error updating QR code:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 module.exports = router;
